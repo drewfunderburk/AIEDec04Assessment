@@ -151,10 +151,10 @@ namespace MathLibrary
                     // Row 2 Column 3
                     lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23 * rhs.m33 + lhs.m24 * rhs.m43,
                     // Row 2 Column 4
-                    lhs.m21 * rhs.m14 + lhs.m22 * rhs.m24 + lhs.m23 * rhs.m34 + lhs.m24 + rhs.m44,
+                    lhs.m21 * rhs.m14 + lhs.m22 * rhs.m24 + lhs.m23 * rhs.m34 + lhs.m24 * rhs.m44,
 
                     // Row 3 Column 1
-                    lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31 + lhs.m34 + rhs.m41,
+                    lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31 + lhs.m34 * rhs.m41,
                     // Row 3 Column 2
                     lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22 + lhs.m33 * rhs.m32 + lhs.m34 * rhs.m42,
                     // Row 3 Column 3
@@ -163,13 +163,13 @@ namespace MathLibrary
                     lhs.m31 * rhs.m14 + lhs.m32 * rhs.m24 + lhs.m33 * rhs.m34 + lhs.m34 * rhs.m44,
 
                     // Row 4 Column 1
-                    lhs.m41 * rhs.m11 + lhs.m42 * rhs.m21 + lhs.m43 * rhs.m31 + lhs.m44 + rhs.m41,
+                    lhs.m41 * rhs.m11 + lhs.m42 * rhs.m21 + lhs.m43 * rhs.m31 + lhs.m44 * rhs.m41,
                     // Row 4 Column 2
-                    lhs.m41 * rhs.m21 + lhs.m42 * rhs.m22 + lhs.m43 * rhs.m32 + lhs.m44 + rhs.m42,
+                    lhs.m41 * rhs.m21 + lhs.m42 * rhs.m22 + lhs.m43 * rhs.m32 + lhs.m44 * rhs.m42,
                     // Row 4 Column 3
                     lhs.m41 * rhs.m31 + lhs.m42 * rhs.m23 + lhs.m43 * rhs.m33 + lhs.m44 * rhs.m43,
                     // Row 4 Column 4
-                    lhs.m41 * rhs.m41 * lhs.m42 * rhs.m24 + lhs.m43 * rhs.m34 + lhs.m44 * rhs.m44
+                    lhs.m41 * rhs.m41 + lhs.m42 * rhs.m24 + lhs.m43 * rhs.m34 + lhs.m44 * rhs.m44
                 );
         }
 
