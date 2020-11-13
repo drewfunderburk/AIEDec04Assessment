@@ -69,7 +69,13 @@ namespace MathLibrary
         public static Vector4 operator *(Vector4 lhs, float rhs)
         { return new Vector4(lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs, lhs.W * rhs); }
 
+        public static Vector4 operator *(float lhs, Vector4 rhs)
+        { return new Vector4(lhs * rhs.X, lhs * rhs.Y, lhs * rhs.Z, lhs * rhs.W); }
+
         public static Vector4 operator /(Vector4 lhs, float rhs)
         { return new Vector4(lhs.X / rhs, lhs.Y / rhs, lhs.Z / rhs, lhs.W / rhs); }
+
+        public static Vector4 operator /(float lhs, Vector4 rhs)
+        { return new Vector4(lhs / rhs.X, lhs / rhs.Y, lhs / rhs.Z, lhs / rhs.W); }
     }
 }

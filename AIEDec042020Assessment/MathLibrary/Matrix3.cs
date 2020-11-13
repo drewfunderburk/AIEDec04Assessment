@@ -128,5 +128,23 @@ namespace MathLibrary
                     lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33 * rhs.m33
                 );
         }
+
+        public static Vector3 operator *(Matrix3 lhs, Vector3 rhs)
+        {
+            return new Vector3(
+                lhs.m11 * rhs.X + lhs.m12 * rhs.Y + lhs.m13 * rhs.Z,
+                lhs.m21 * rhs.X + lhs.m22 * rhs.Y + lhs.m23 * rhs.Z,
+                lhs.m31 * rhs.X + lhs.m32 * rhs.Y + lhs.m33 * rhs.Z
+                );
+        }
+
+        public static Vector3 operator *(Vector3 lhs, Matrix3 rhs)
+        {
+            return new Vector3(
+                lhs.X * rhs.m11 + lhs.Y * rhs.m12 + lhs.Z * rhs.m13,
+                lhs.X * rhs.m21 + lhs.Y * rhs.m22 + lhs.Z * rhs.m23,
+                lhs.X * rhs.m31 + lhs.Y * rhs.m32 + lhs.Z * rhs.m33
+                );
+        }
     }
 }
