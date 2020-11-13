@@ -12,7 +12,7 @@ namespace AIEDec042020Assessment
 
         }
 
-        public override void Update()
+        public override void Update(float deltaTime)
         {
 
         }

@@ -15,7 +15,7 @@ namespace AIEDec042020Assessment
 
         }
 
-        public virtual void Update()
+        public virtual void Update(float deltaTime)
         {
 
         }

@@ -14,7 +14,7 @@ namespace AIEDec042020Assessment
 
         }
 
-        public void Update()
+        public void Update(float deltaTime)
         {
 
         }
