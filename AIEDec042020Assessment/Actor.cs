@@ -26,14 +26,13 @@ namespace AIEDec042020Assessment
 
         private float RotationAngle { get; set; } = 0;
 
+        public float Speed { get; set; }
         // X-axis forward
         public Vector2 Forward
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
 
         public Vector2 GlobalPosition
-        {
-            get { return new Vector2(_globalTransform.m13, _globalTransform.m23); }
-        }
+        { get { return new Vector2(_globalTransform.m13, _globalTransform.m23); } }
 
         public Vector2 LocalPosition
         {
@@ -160,11 +159,11 @@ namespace AIEDec042020Assessment
 
         public virtual void Update(float deltaTime)
         {
+            //Increase position by the current velocity
+            LocalPosition += (Velocity * Speed) * deltaTime;
+
             // Update Transform
             UpdateTransform();
-
-            //Increase position by the current velocity
-            LocalPosition += Velocity * deltaTime;
         }
 
         public virtual void Draw()
