@@ -91,6 +91,7 @@ namespace MathLibrary
 
         public static implicit operator Vector4((float, float, float, float) tuple)
         { return new Vector4(tuple.Item1, tuple.Item2, tuple.Item3, tuple.Item4); }
+
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         { return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W); }
 
