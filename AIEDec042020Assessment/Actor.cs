@@ -16,17 +16,25 @@ namespace AIEDec042020Assessment
         private Actor _parent;
         private Actor[] _children;
 
+        // Transform matrices
         private Matrix3 _globalTransform = new Matrix3();
         private Matrix3 _localTransform = new Matrix3();
         private Matrix3 _translation = new Matrix3();
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
 
-        private float _collisionRadius;
+        public float _collisionRadius;
+        
+        public Type[] _collisionMask;
 
-        private float RotationAngle { get; set; } = 0;
+        // Whether or not this Actor will carry out it's collision behavior
+        protected bool _carryOutCollision;
 
-        public float Speed { get; set; }
+        #region PROPERTIES
+
+        public float RotationAngle { get; private set; } = 0;
+
+        public float Speed { get; set; } = 100;
         // X-axis forward
         public Vector2 Forward
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
@@ -41,42 +49,49 @@ namespace AIEDec042020Assessment
         }
 
         public Vector2 Velocity { get; set; }
-
+        #endregion
         #region CONSTRUCTORS
         public Actor(Vector2 position, float rotation = 0)
         {
             LocalPosition = position;
             Velocity = new Vector2();
-            RotationAngle = rotation;
+            SetRotation(rotation);
             _children = new Actor[0];
             _collisionRadius = 20;
-
-            UpdateTransform();
         }
 
         public Actor(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
+        public static Actor Instantiate(Actor actor)
+        {
+            Game.scene.AddActor(actor);
+            return actor;
+        }
         #region TRANSFORMATION
         public void SetTranslation(Vector2 position)
         {
             _translation = Matrix3.CreateTranslation(position);
+            UpdateTransform();
         }
 
         public void SetRotation(float radians)
         {
             RotationAngle = radians;
             _rotation = Matrix3.CreateRotation(radians);
+            UpdateTransform();
         }
 
         public void Rotate(float radians)
         {
             RotationAngle += radians;
             _rotation *= Matrix3.CreateRotation(radians);
+            UpdateTransform();
         }
 
         public void SetScale(float x, float y)
         {
             _scale = Matrix3.CreateScale(new Vector2(x, y));
+            UpdateTransform();
         }
 
         public void LookAt(Vector2 position)
@@ -118,19 +133,25 @@ namespace AIEDec042020Assessment
                 _globalTransform = _localTransform;
             }
 
-            for (int i = 0; i < _children.Length; i++)
+            if (_children != null)
             {
-                _children[i].UpdateGlobalTransform();
+                for (int i = 0; i < _children.Length; i++)
+                {
+                    _children[i].UpdateGlobalTransform();
+                }
             }
         }
 
-        private void UpdateTransform()
+        protected void UpdateTransform()
         {
             UpdateGlobalTransform();
             _localTransform = _translation * _rotation * _scale;
-            for (int i = 0; i < _children.Length; i++)
+            if (_children != null)
             {
-                _children[i]._globalTransform = _localTransform;
+                for (int i = 0; i < _children.Length; i++)
+                {
+                    _children[i]._globalTransform = _localTransform;
+                }
             }
         }
         #endregion
@@ -144,25 +165,38 @@ namespace AIEDec042020Assessment
                 return false;
         }
 
-        public virtual void OnCollision(Actor other)
+        public virtual bool OnCollision(Actor other)
         {
             // Check if objects are really collided
             if (!CheckCollision(other))
-                return;
+                return false;
+
+            // Check if other object has a valid collision mask
+            if (other._collisionMask == null)
+                return false;
+
+            // Check if other object is set to collide with this object
+            _carryOutCollision = false;
+            for (int i = 0; i < other._collisionMask.Length; i++)
+            {
+                if (other._collisionMask[i].IsInstanceOfType(this))
+                    return true;
+            }
+            return false;
         }
         #endregion
         #region CORE
         public virtual void Start()
         {
             Started = true;
+            _children = new Actor[0];
         }
 
         public virtual void Update(float deltaTime)
         {
             //Increase position by the current velocity
-            LocalPosition += (Velocity * Speed) * deltaTime;
+            LocalPosition += Velocity * deltaTime;
 
-            // Update Transform
             UpdateTransform();
         }
 
