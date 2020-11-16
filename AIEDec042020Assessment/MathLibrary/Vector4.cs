@@ -11,12 +11,21 @@ namespace MathLibrary
         public float Z { get; set; }
         public float W { get; set; }
 
+        /// <summary>
+        /// This vector's magnitude
+        /// </summary>
         public float Magnitude
         { get { return (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W); } }
 
+        /// <summary>
+        /// This vector with its magnitude normalized to 1
+        /// </summary>
         public Vector4 Normalized
         { get { return Normalize(this); } }
 
+        /// <summary>
+        /// Constructs a new Vector4 (0, 0, 0, 0)
+        /// </summary>
         public Vector4()
         {
             X = 0;
@@ -25,6 +34,10 @@ namespace MathLibrary
             W = 0;
         }
 
+        /// <summary>
+        /// Create a new vector4 from a vector3 (X, Y, Z, 0)
+        /// </summary>
+        /// <param name="vector"></param>
         public Vector4(Vector3 vector)
         {
             X = vector.X;
@@ -41,7 +54,11 @@ namespace MathLibrary
             W = w;
         }
 
-        
+        /// <summary>
+        /// Return the given vector normalized
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static Vector4 Normalize(Vector4 vector)
         {
             if (vector.Magnitude == 0)
@@ -49,9 +66,21 @@ namespace MathLibrary
             return vector / vector.Magnitude;
         }
 
+        /// <summary>
+        /// Returns the Dot Product of the given vectors
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static float DotProduct(Vector4 lhs, Vector4 rhs)
         { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y) + (lhs.Z * rhs.Z) + (lhs.W * rhs.W); }
 
+        /// <summary>
+        /// Returns the Cross Product of the given vectors
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static Vector4 CrossProduct(Vector4 lhs, Vector4 rhs)
         {
             Vector3 a = new Vector3(lhs.X, lhs.Y, lhs.Z);

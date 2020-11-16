@@ -68,6 +68,11 @@ namespace MathLibrary
                 0, 0, 0, 1);
         }
 
+        /// <summary>
+        /// Creates a new matrix that has been rotated on the X-axis by the given value
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
         public static Matrix4 CreateRotationX(float radians)
         {
             return new Matrix4(
@@ -77,6 +82,11 @@ namespace MathLibrary
                 0, 0, 0, 1);
         }
 
+        /// <summary>
+        /// Creates a new matrix that has been rotated on the Y-axis by the given value
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
         public static Matrix4 CreateRotationY(float radians)
         {
             return new Matrix4(
@@ -86,6 +96,11 @@ namespace MathLibrary
                 0, 0, 0, 1);
         }
 
+        /// <summary>
+        /// Creates a new matrix that has been rotated on the Z-axis by the given value
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
         public static Matrix4 CreateRotationZ(float radians)
         {
             return new Matrix4(
@@ -95,11 +110,25 @@ namespace MathLibrary
                 0, 0, 0, 1);
         }
 
+        /// <summary>
+        /// /// <summary>
+        /// Creates a new matrix that has been rotated on all three axes by the given value
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
         public static Matrix4 CreateCombinedRotation(Vector3 radians)
         {
             return new Matrix4() * CreateRotationX(radians.X) * CreateRotationY(radians.Y) * CreateRotationZ(radians.Z);
         }
 
+        /// <summary>
+        /// Creates a new matrix that has been scaled by the given value
+        /// </summary>
+        /// <param name="scale">The amount the new matrix should be scaled</param>
+        /// <returns></returns>
         public static Matrix4 CreateScale(Vector3 scale)
         {
             return new Matrix4(

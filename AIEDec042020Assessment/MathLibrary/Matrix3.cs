@@ -24,15 +24,15 @@ namespace MathLibrary
         /// <summary>
         /// Initializes a new Matrix3 with the given values
         /// </summary>
-        /// <param name="m11"></param>
-        /// <param name="m12"></param>
-        /// <param name="m13"></param>
-        /// <param name="m21"></param>
-        /// <param name="m22"></param>
-        /// <param name="m23"></param>
-        /// <param name="m31"></param>
-        /// <param name="m32"></param>
-        /// <param name="m33"></param>
+        /// <param name="m11">Row 1 Column 1</param>
+        /// <param name="m12">Row 1 Column 2</param>
+        /// <param name="m13">Row 1 Column 3</param>
+        /// <param name="m21">Row 2 Column 1</param>
+        /// <param name="m22">Row 2 Column 2</param>
+        /// <param name="m23">Row 2 Column 3</param>
+        /// <param name="m31">Row 3 Column 1</param>
+        /// <param name="m32">Row 3 Column 2</param>
+        /// <param name="m33">Row 3 Column 3</param>
         public Matrix3(
             float m11, float m12, float m13, 
             float m21, float m22, float m23, 

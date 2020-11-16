@@ -10,12 +10,21 @@ namespace MathLibrary
         public float Y { get; set; }
         public float Z { get; set; }
 
+        /// <summary>
+        /// This vector's magnitude
+        /// </summary>
         public float Magnitude
         { get { return (float)Math.Sqrt(X * X + Y * Y + Z * Z); } }
 
+        /// <summary>
+        /// This vector with its magnitude normalized to 1
+        /// </summary>
         public Vector3 Normalized
         { get { return Normalize(this); } }
 
+        /// <summary>
+        /// Constructs a new Vector3 (0, 0, 0)
+        /// </summary>
         public Vector3()
         {
             X = 0;
@@ -23,6 +32,10 @@ namespace MathLibrary
             Z = 0;
         }
 
+        /// <summary>
+        /// Constructs a new Vector3 from a Vector2 (X, Y, 0)
+        /// </summary>
+        /// <param name="vector"></param>
         public Vector3(Vector2 vector)
         {
             X = vector.X;
@@ -38,10 +51,10 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Returns the given vector normalized
+        /// Return the given vector normalized
         /// </summary>
-        /// <param name="vector">The vector that will be normalized</param>
-        /// <returns>The normalized vector</returns>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static Vector3 Normalize(Vector3 vector)
         {
             if (vector.Magnitude == 0)
@@ -50,7 +63,7 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Returns the dot product of the two vectors given
+        /// Returns the Dot Product of the given vectors
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
@@ -58,6 +71,12 @@ namespace MathLibrary
         public static float DotProduct(Vector3 lhs, Vector3 rhs)
         { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y) + (lhs.Z * rhs.Z); }
 
+        /// <summary>
+        /// Returns the Cross Product of the given vectors
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static Vector3 CrossProduct(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(

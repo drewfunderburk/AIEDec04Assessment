@@ -8,12 +8,21 @@ namespace MathLibrary
 
         public float Y { get; set; }
 
+        /// <summary>
+        /// This vector's magnitude
+        /// </summary>
         public float Magnitude
         { get { return (float)Math.Sqrt(X * X + Y * Y); } }
 
+        /// <summary>
+        /// This vector with its magnitude normalized to 1
+        /// </summary>
         public Vector2 Normalized
         { get { return Normalize(this); } }
 
+        /// <summary>
+        /// Constructs a new Vector2 (0, 0)
+        /// </summary>
         public Vector2()
         {
             X = 0;
@@ -27,9 +36,9 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Returns the normalized version of a the vector passed in.
+        /// Return the given vector normalized
         /// </summary>
-        /// <param name="vector">The vector that will be normalized</param>
+        /// <param name="vector"></param>
         /// <returns></returns>
         public static Vector2 Normalize(Vector2 vector)
         {
@@ -40,7 +49,7 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Returns the dot product of the two vectors given.
+        /// Returns the Dot Product of the given vectors
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
