@@ -85,6 +85,9 @@ namespace MathLibrary
                 lhs.X * rhs.Y - lhs.Y * rhs.X);
         }
 
+        public static implicit operator Vector3((float, float, float) tuple)
+        { return new Vector3(tuple.Item1, tuple.Item2, tuple.Item3); }
+
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
         { return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z); }
 
