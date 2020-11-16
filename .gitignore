@@ -186,7 +186,7 @@ $RECYCLE.BIN/
 **/*.sln.ide
 
 # Visual Studio temp something
-AIEDec042020Assessment/.vs/
+.vs/
 
 # dotnet stuff
 project.lock.json
