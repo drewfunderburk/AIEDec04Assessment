@@ -22,8 +22,9 @@ namespace AIEDec042020Assessment
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
 
-        private float _rotationAngle = 0;
         private float _collisionRadius;
+
+        private float RotationAngle { get; set; } = 0;
 
         // X-axis forward
         public Vector2 Forward
@@ -47,7 +48,7 @@ namespace AIEDec042020Assessment
         {
             LocalPosition = position;
             Velocity = new Vector2();
-            _rotationAngle = rotation;
+            RotationAngle = rotation;
             _children = new Actor[0];
             _collisionRadius = 20;
 
@@ -64,13 +65,13 @@ namespace AIEDec042020Assessment
 
         public void SetRotation(float radians)
         {
-            _rotationAngle = radians;
+            RotationAngle = radians;
             _rotation = Matrix3.CreateRotation(radians);
         }
 
         public void Rotate(float radians)
         {
-            _rotationAngle += radians;
+            RotationAngle += radians;
             _rotation *= Matrix3.CreateRotation(radians);
         }
 
