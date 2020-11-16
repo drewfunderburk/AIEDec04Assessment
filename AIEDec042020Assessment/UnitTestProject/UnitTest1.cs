@@ -229,7 +229,8 @@ namespace UnitTestProject
         public void Matrix4SetRotateX()
         {
             Matrix4 m4a = new Matrix4();
-            m4a = Transpose(Matrix4.CreateRotationX(4.5f));
+            //m4a = Transpose(Matrix4.CreateRotationX(4.5f));
+            m4a = Matrix4.CreateRotationX(4.5f);
 
             Assert.IsTrue(compare(m4a,
                 new Matrix4(1, 0, 0, 0, 0, -0.210796f, -0.97753f, 0, 0, 0.97753f, -0.210796f, 0, 0, 0, 0, 1)));
@@ -239,7 +240,8 @@ namespace UnitTestProject
         public void Matrix4SetRotateY()
         {
             Matrix4 m4b = new Matrix4();
-            m4b = Transpose(Matrix4.CreateRotationY(-2.6f));
+            //m4b = Transpose(Matrix4.CreateRotationY(-2.6f));
+            m4b = Matrix4.CreateRotationY(-2.6f);
 
             Assert.IsTrue(compare(m4b,
                 new Matrix4(-0.856889f, 0, 0.515501f, 0, 0, 1, 0, 0, -0.515501f, 0, -0.856889f, 0, 0, 0, 0, 1)));
@@ -259,7 +261,8 @@ namespace UnitTestProject
         public void Matrix4SetRotateZ()
         {
             Matrix4 m4c = new Matrix4();
-            m4c = Transpose(Matrix4.CreateRotationZ(0.72f));
+            //m4c = Transpose(Matrix4.CreateRotationZ(0.72f));
+            m4c = Matrix4.CreateRotationZ(0.72f);
 
             Assert.IsTrue(compare(m4c,
                 new Matrix4(0.751806f, 0.659385f, 0, 0, -0.659385f, 0.751806f, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)));
@@ -329,6 +332,7 @@ namespace UnitTestProject
             m4c = Matrix4.CreateRotationZ(0.72f);
 
             Matrix4 m4d = Transpose(m4c * m4b);
+            //Matrix4 m4d = m4c * m4b;
 
             Assert.IsTrue(compare(m4d,
                 new Matrix4(-0.644213855267f, -0.565019249916f, 0.515501439571f, 0, -0.659384667873f, 0.751805722713f, 0, 0, -0.387556940317f, -0.339913755655f, -0.856888711452f, 0, 0, 0, 0, 1)));
@@ -354,11 +358,18 @@ namespace UnitTestProject
         public void Vector4MatrixTranslation()
         {
             // homogeneous point translation
+            /*
             Matrix4 m4b = Transpose(new Matrix4(1, 0, 0, 0,
                                       0, 1, 0, 0,
                                       0, 0, 1, 0,
                                       55, 44, 99, 1));
-            
+            */
+
+            Matrix4 m4b = new Matrix4(1, 0, 0, 0,
+                                      0, 1, 0, 0,
+                                      0, 0, 1, 0,
+                                      55, 44, 99, 1);
+
             Vector4 v4a = new Vector4(13.5f, -48.23f, -54, 1);
 
             Vector4 v4c = m4b * v4a;
