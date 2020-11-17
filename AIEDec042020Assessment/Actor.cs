@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -61,6 +61,51 @@ namespace AIEDec042020Assessment
         }
 
         public Actor(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
+        #endregion
+        #region CHILDREN
+        public bool AddChild(Actor child)
+        {
+            if (child == null)
+                return false;
+
+            Actor[] tempArray = new Actor[_children.Length + 1];
+
+            for (int i = 0; i < _children.Length; i++)
+            {
+                tempArray[i] = _children[i];
+            }
+            tempArray[_children.Length] = child;
+            _children = tempArray;
+            child._parent = this;
+            return true;
+        }
+
+        public bool RemoveChild(Actor child)
+        {
+            if (child == null)
+                return false;
+
+            Actor[] tempArray = new Actor[_children.Length - 1];
+            bool childRemoved = false;
+
+            int j = 0;
+            for (int i = 0; i < tempArray.Length; i++)
+            {
+                if (_children[i] != child)
+                {
+                    tempArray[j] = _children[i];
+                    j++;
+                }
+                else
+                {
+                    childRemoved = true;
+                }
+            }
+
+            _children = tempArray;
+            child._parent = null;
+            return childRemoved;
+        }
         #endregion
         public static Actor Instantiate(Actor actor)
         {
