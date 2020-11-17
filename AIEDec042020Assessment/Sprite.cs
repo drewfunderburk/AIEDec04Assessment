@@ -11,31 +11,21 @@ namespace AIEDec042020Assessment
     class Sprite
     {
         private Texture2D _texture;
-        private float scale = 32;
+        private float _scale = 32;
+        public float Scale { get { return _scale; } set { _scale = value * 32; } }
+
         //Width of the loaded texture
         public int Width
         {
-            get
-            {
-                return _texture.width;
-            }
-            set
-            {
-                _texture.width = value;
-            }
+            get { return _texture.width; }
+            set { _texture.width = value; }
         }
 
         //Height of the loaded texture
         public int Height
         {
-            get
-            {
-                return _texture.height;
-            }
-            set
-            {
-                _texture.height = value;
-            }
+            get { return _texture.height; }
+            set { _texture.height = value; }
         }
 
         /// <summary>
@@ -43,9 +33,7 @@ namespace AIEDec042020Assessment
         /// </summary>
         /// <param name="texture">Sets the sprites image to be the given texture</param>
         public Sprite(Texture2D texture)
-        {
-            _texture = texture;
-        }
+        { _texture = texture; }
 
         /// <summary>
         /// Loads the texture at the given path
@@ -73,15 +61,15 @@ namespace AIEDec042020Assessment
             System.Numerics.Vector2 pos = new System.Numerics.Vector2(transform.m13, transform.m23);
             System.Numerics.Vector2 forward = new System.Numerics.Vector2(transform.m11, transform.m21);
             System.Numerics.Vector2 up = new System.Numerics.Vector2(transform.m12, transform.m22);
-            pos -= ((forward / forward.Length()) * Width / 2) * scale;
-            pos -= ((up / up.Length()) * Height / 2) * scale;
+            pos -= ((forward / forward.Length()) * Width / 2) * Scale;
+            pos -= ((up / up.Length()) * Height / 2) * Scale;
 
             //Find the transform rotation in radians 
             float rotation = (float)Math.Atan2(transform.m21, transform.m11);
 
             //Draw the sprite
             Raylib.DrawTextureEx(_texture, pos,
-                (float)(rotation * 180.0f / Math.PI), scale, Color.WHITE);
+                (float)(rotation * 180.0f / Math.PI), Scale, Color.WHITE);
         }
     }
 }
