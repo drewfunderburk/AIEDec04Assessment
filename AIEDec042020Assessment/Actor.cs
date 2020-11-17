@@ -32,7 +32,7 @@ namespace AIEDec042020Assessment
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
 
-        public float _collisionRadius;
+        public List<Collider> _colliders = new List<Collider>();
 
         public Vector2 Scale { get; protected set; } = (1, 1);
 
@@ -252,10 +252,14 @@ namespace AIEDec042020Assessment
 
         public virtual void Draw()
         {
-            Raylib.DrawCircleLines(
-                (int)GlobalPosition.X,
-                (int)GlobalPosition.Y,
-                _collisionRadius, Color.GREEN);
+            // Draw colliders
+            for (int i = 0; i < _colliders.Length; i++)
+            {
+                Raylib.DrawCircleLines(
+                    (int)GlobalPosition.X,
+                    (int)GlobalPosition.Y,
+                    _colliders[i].Radius, Color.GREEN);
+            }
 
             Raylib.DrawLine(
                (int)GlobalPosition.X,

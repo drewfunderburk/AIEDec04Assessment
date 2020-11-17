@@ -49,7 +49,10 @@ namespace AIEDec042020Assessment
         public void TakeDamage(int damage)
         {
             if (Scale.Y - damage < 1)
+            {
+                Game.GameOver = true;
                 return;
+            }
             SetScale(Scale.X, Scale.Y - damage);
         }
         #region CORE

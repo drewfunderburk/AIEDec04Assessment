@@ -9,7 +9,7 @@ namespace AIEDec042020Assessment
     {
         public static Scene scene;
 
-        public bool GameOver { get; set; }
+        public static bool GameOver { get; set; }
 
         #region CORE
         private void Start()
