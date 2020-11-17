@@ -13,24 +13,43 @@ namespace AIEDec042020Assessment
         public float DespawnTime { get; set; } = 10000;
 
         #region CONSTRUCTORS
-        public Bullet(Vector2 position, float rotation) : base(position, rotation) 
+        public Bullet(Vector2 position, float rotation, Vector2 scale, ActorID ID) : base(position, rotation) 
         {
             Speed = 2000;
             _collisionRadius = 5;
-            _collisionMask = new Type[0];
-        }
-        public Bullet(Vector2 position, float rotation, Type[] types) : this(position, rotation)
-        {
-            _collisionMask = types;
+            this.ID = ID;
+            SetScale(scale.X, scale.Y);
         }
         #endregion
         public override bool OnCollision(Actor other)
         {
-            if (!base.OnCollision(other))
-                return false;
-
-            WillDestroy = true;
-            return true;
+            switch (other.ID)
+            {
+                // If other is a player and this bullet is an enemy bullet, destroy it
+                case ActorID.PLAYER:
+                    if (ID == ActorID.ENEMY_BULLET)
+                        WillDestroy = true;
+                    return true;
+                // If other is an enemy and this bullet is a player bullet, destroy it
+                case ActorID.ENEMY:
+                    if (ID == ActorID.PLAYER_BULLET)
+                        WillDestroy = true;
+                    return true;
+                // If other is a player bullet and this is an enemy bullet, destroy it
+                case ActorID.PLAYER_BULLET:
+                    if (ID == ActorID.ENEMY_BULLET)
+                        WillDestroy = true;
+                    return true;
+                // If other is an enemy bullet and this is a player bullet, destroy it
+                case ActorID.ENEMY_BULLET:
+                    if (ID == ActorID.PLAYER_BULLET)
+                        WillDestroy = true;
+                    return true;
+                // Do nothing on collision by default
+                default:
+                    break;
+            }
+            return false;
         }
 
         #region CORE
@@ -38,6 +57,11 @@ namespace AIEDec042020Assessment
         {
             base.Start();
             _stopwatch.Start();
+            if (ID == ActorID.ENEMY_BULLET)
+                _sprite = new Sprite("Sprites/Enemy_Bullet.png");
+            else if (ID == ActorID.PLAYER_BULLET)
+                _sprite = new Sprite("Sprites/Player_Bullet.png");
+            _sprite.Scale = 2;
         }
         public override void Update(float deltaTime)
         {

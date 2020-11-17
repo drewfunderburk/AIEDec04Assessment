@@ -8,20 +8,53 @@ namespace AIEDec042020Assessment
 {
     class Enemy : Actor
     {
-        private float _fireDelay = 1000;
+        private float _fireDelay;
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
 
         public Actor Target { get; set; }
 
         #region CONSTRUCTORS
-        public Enemy(Vector2 position, float rotation = 0) : base(position, rotation) { }
+        public Enemy(Vector2 position, float rotation = 0) : base(position, rotation) { ID = ActorID.ENEMY; }
         public Enemy(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
+        public override bool OnCollision(Actor other)
+        {
+            switch (other.ID)
+            {
+                // If other is the player, destroy
+                case ActorID.PLAYER:
+                    WillDestroy = true;
+                    return true;
+                // Teleport to a random location
+                case ActorID.PLAYER_BULLET:
+                    WillDestroy = true;
+                    return true;
+                // Do nothing on collision by default
+                default:
+                    break;
+            }
+            return false;
+        }
+        protected void Shoot()
+        {
+            if (_stopwatch.ElapsedMilliseconds > _fireDelay)
+            {
+                _stopwatch.Restart();
+                Bullet bullet = Instantiate(
+                    new Bullet(
+                        GlobalPosition,
+                        RotationAngle, (1, 1), ActorID.ENEMY_BULLET)) as Bullet;
+                bullet.Speed = 200;
+                bullet._collisionRadius = 10;
+            }
+        }
         #region CORE
         public override void Start()
         {
             base.Start();
             _stopwatch.Start();
+            Random rand = new Random();
+            _fireDelay = 1000 + (rand.Next(-500, 500));
         }
         public override void Update(float deltaTime)
         {
@@ -29,33 +62,9 @@ namespace AIEDec042020Assessment
             if (Target != null)
                 LookAt(Target.GlobalPosition);
 
-            if (_stopwatch.ElapsedMilliseconds > _fireDelay)
-            {
-                _stopwatch.Restart();
-                Bullet bullet = Instantiate(
-                    new Bullet(
-                        GlobalPosition, 
-                        RotationAngle, 
-                        new Type[] { typeof(Player) })) as Bullet;
-                bullet.Speed = 200;
-                bullet._collisionRadius = 10;
-            }
+            Shoot();
 
             base.Update(deltaTime);
-        }
-
-        public override bool OnCollision(Actor other)
-        {
-            if (!base.OnCollision(other))
-                return false;
-            
-
-            // Randomize Location
-            Random rand = new Random();
-            float randX = (float)rand.NextDouble() * Raylib.GetScreenWidth();
-            float randY = (float)rand.NextDouble() * Raylib.GetScreenHeight();
-            SetTranslation(new Vector2(randX, randY));
-            return true;
         }
         #endregion
     }

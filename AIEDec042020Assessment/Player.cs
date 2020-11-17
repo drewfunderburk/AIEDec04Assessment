@@ -16,14 +16,48 @@ namespace AIEDec042020Assessment
         private float _bottomBoundary = Raylib.GetScreenHeight() * 0.95f;
         private float _topBoundary =    Raylib.GetScreenHeight() * 0.3f;
 
-        private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
+        private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
+        private System.Diagnostics.Stopwatch _iFrameTimer = new System.Diagnostics.Stopwatch();
 
         #region CONSTRUCTORS
         public Player(Vector2 position, float rotation = 0) : base(position, rotation) 
-        { _stopwatch.Start(); }
+        { 
+            _fireRateTimer.Start();
+            ID = ActorID.PLAYER;
+        }
         public Player(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
+
+        public override bool OnCollision(Actor other)
+        {
+            base.OnCollision(other);
+            switch (other.ID)
+            {
+                // Take damage on collision with an enemy
+                case ActorID.ENEMY:
+                    TakeDamage(1);
+                    return true;
+                case ActorID.ENEMY_BULLET:
+                    TakeDamage(1);
+                    return true;
+                // Do nothing on collision by default
+                default:
+                    break;
+            }
+            return false;
+        }
+        public void TakeDamage(int damage)
+        {
+            if (Scale.Y - damage < 1)
+                return;
+            SetScale(Scale.X, Scale.Y - damage);
+        }
         #region CORE
+        public override void Start()
+        {
+            base.Start();
+            _sprite = new Sprite("Sprites/Player_Ship.png");
+        }
         public override void Update(float deltaTime)
         {
             //Gets the player's input to determine which direction the actor will move in on each axis 
@@ -43,10 +77,11 @@ namespace AIEDec042020Assessment
                 yDirection = Math.Max(0, yDirection);
             
             // Shooting
-            if (_stopwatch.ElapsedMilliseconds > _fireDelay && Raylib.IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
+            if (_fireRateTimer.ElapsedMilliseconds > _fireDelay && Raylib.IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
             {
-                _stopwatch.Restart();
-                Instantiate(new Bullet(GlobalPosition, RotationAngle, new Type[] { typeof(Enemy) }));
+                _fireRateTimer.Restart();
+                Bullet bullet = Instantiate(new Bullet(GlobalPosition, RotationAngle, Scale, ActorID.PLAYER_BULLET)) as Bullet;
+
             }
 
             // Target mouse position

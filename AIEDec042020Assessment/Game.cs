@@ -22,16 +22,35 @@ namespace AIEDec042020Assessment
             scene = new Scene();
 
             // Spawn player in the center bottom of the screen
-            Player player = new Player(
+            Player player = Actor.Instantiate(new Player(
                 Raylib.GetScreenWidth() / 2, 
                 Raylib.GetScreenHeight() * 0.95f, 
-                (float)Math.PI / 2);
+                (float)Math.PI / 2)) as Player;
             player.Speed = 300;
-            scene.AddActor(player);
+            player.SetScale(1, 3);
 
-            Enemy enemy = new Enemy(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() * 0.2f);
+            // Base Enemy
+            Enemy enemy = Actor.Instantiate(new Enemy(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() * 0.2f)) as Enemy;
             enemy.Target = player;
-            scene.AddActor(enemy);
+
+            // String of patrol enemies
+            for (int i = -2; i < 3; i++)
+            {
+                PatrolEnemy p = Actor.Instantiate(new PatrolEnemy((Raylib.GetScreenWidth() * 0.75f, -10 - (i * 50)))) as PatrolEnemy;
+                p.Target = player;
+            }
+
+            // String of Homing Enemy
+            for (int i = -2; i < 3; i++)
+            {
+                HomingEnemy h = Actor.Instantiate(new HomingEnemy(((Raylib.GetScreenWidth() / 2) + (i * 50), -10))) as HomingEnemy;
+                h.Target = player;
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                PowerUp powerUp = Actor.Instantiate(new PowerUp((Raylib.GetScreenWidth() / 2, -10 + (i * 50)))) as PowerUp;
+
+            }
         }
 
         private void Update(float deltaTime)

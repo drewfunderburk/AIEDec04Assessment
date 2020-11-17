@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -8,10 +8,19 @@ namespace AIEDec042020Assessment
 {
     class Actor
     {
+        public enum ActorID
+        {
+            PLAYER,
+            ENEMY,
+            PLAYER_BULLET,
+            ENEMY_BULLET,
+            POWER_UP
+        }
+
         public bool Started { get; set; }
         public bool WillDestroy { get; set; }
 
-        private Sprite _sprite;
+        protected Sprite _sprite;
 
         private Actor _parent;
         private Actor[] _children;
@@ -24,11 +33,11 @@ namespace AIEDec042020Assessment
         private Matrix3 _scale = new Matrix3();
 
         public float _collisionRadius;
-        
-        public Type[] _collisionMask;
 
-        // Whether or not this Actor will carry out it's collision behavior
-        protected bool _carryOutCollision;
+        public Vector2 Scale { get; protected set; } = (1, 1);
+
+        // ID to identify what type of actor this is. Defaults to Enemy
+        public ActorID ID = ActorID.ENEMY;
 
         #region PROPERTIES
 
@@ -136,8 +145,12 @@ namespace AIEDec042020Assessment
         public void SetScale(float x, float y)
         {
             _scale = Matrix3.CreateScale(new Vector2(x, y));
+            Scale = (x, y);
             UpdateTransform();
         }
+
+        public void SetScale(Vector2 scale)
+        { SetScale(scale.X, scale.Y); }
 
         public void LookAt(Vector2 position)
         {
@@ -216,18 +229,10 @@ namespace AIEDec042020Assessment
             if (!CheckCollision(other))
                 return false;
 
-            // Check if other object has a valid collision mask
-            if (other._collisionMask == null)
+            // Do not collide of object is set to be destroyed
+            if (other.WillDestroy)
                 return false;
-
-            // Check if other object is set to collide with this object
-            _carryOutCollision = false;
-            for (int i = 0; i < other._collisionMask.Length; i++)
-            {
-                if (other._collisionMask[i].IsInstanceOfType(this))
-                    return true;
-            }
-            return false;
+            return true;
         }
         #endregion
         #region CORE
