@@ -13,4 +13,10 @@
     <ProjectReference Include="..\MathLibrary\MathLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Sprites\*.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
