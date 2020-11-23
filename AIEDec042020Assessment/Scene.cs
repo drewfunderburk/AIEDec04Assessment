@@ -8,7 +8,7 @@ namespace AIEDec042020Assessment
     {
         public bool Started { get; set; }
 
-        private Actor[] _actors;
+        protected Actor[] _actors;
 
         public Scene()
         {
@@ -116,13 +116,13 @@ namespace AIEDec042020Assessment
         #endregion
 
         #region CORE
-        public void Start()
+        public virtual void Start()
         {
             Started = true;
 
         }
 
-        public void Update(float deltaTime)
+        public virtual void Update(float deltaTime)
         {
             // Update all actors
             for (int i = 0; i < _actors.Length; i++)
@@ -154,7 +154,7 @@ namespace AIEDec042020Assessment
             DestroyActors();
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
             for (int i = 0; i < _actors.Length; i++)
             {
@@ -162,7 +162,7 @@ namespace AIEDec042020Assessment
             }
         }
 
-        public void End()
+        public virtual void End()
         {
             for (int i = 0; i < _actors.Length; i++)
             {

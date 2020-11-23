@@ -34,8 +34,8 @@ namespace AIEDec042020Assessment
             Velocity = ((PatrolDistance * 2)  * (float)Math.Cos(GlobalPosition.Y / (PatrolDistance / 2)), Speed);
 
             // Send to top again if it goes off the screen
-            if (GlobalPosition.Y > Raylib.GetScreenHeight() + _collisionRadius)
-                LocalPosition = (_startingX, -_collisionRadius);
+            if (GlobalPosition.Y > Raylib.GetScreenHeight() + 40)
+                LocalPosition = (_startingX, -40);
 
             base.Update(deltaTime);
         }

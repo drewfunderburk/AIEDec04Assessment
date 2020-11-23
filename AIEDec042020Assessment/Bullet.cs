@@ -16,7 +16,6 @@ namespace AIEDec042020Assessment
         public Bullet(Vector2 position, float rotation, Vector2 scale, ActorID ID) : base(position, rotation) 
         {
             Speed = 2000;
-            _collisionRadius = 5;
             this.ID = ID;
             SetScale(scale.X, scale.Y);
         }
@@ -57,11 +56,14 @@ namespace AIEDec042020Assessment
         {
             base.Start();
             _stopwatch.Start();
+
             if (ID == ActorID.ENEMY_BULLET)
                 _sprite = new Sprite("Sprites/Enemy_Bullet.png");
             else if (ID == ActorID.PLAYER_BULLET)
                 _sprite = new Sprite("Sprites/Player_Bullet.png");
             _sprite.Scale = 2;
+
+            AddCollider(new CircleCollider((0, 0), 5));
         }
         public override void Update(float deltaTime)
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -55,6 +55,7 @@ namespace AIEDec042020Assessment
             _stopwatch.Start();
             Random rand = new Random();
             _fireDelay = 1000 + (rand.Next(-500, 500));
+            AddCollider(new CircleCollider((0, 0), 20));
         }
         public override void Update(float deltaTime)
         {

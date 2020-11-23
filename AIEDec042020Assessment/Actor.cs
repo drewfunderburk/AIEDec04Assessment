@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -22,7 +22,7 @@ namespace AIEDec042020Assessment
 
         protected Sprite _sprite;
 
-        private Actor _parent;
+        public Actor _parent;
         private Actor[] _children;
 
         // Transform matrices
@@ -34,12 +34,12 @@ namespace AIEDec042020Assessment
 
         public List<Collider> _colliders = new List<Collider>();
 
-        public Vector2 Scale { get; protected set; } = (1, 1);
 
         // ID to identify what type of actor this is. Defaults to Enemy
         public ActorID ID = ActorID.ENEMY;
 
         #region PROPERTIES
+        public Vector2 Scale { get; protected set; } = (1, 1);
 
         public float RotationAngle { get; private set; } = 0;
 
@@ -66,7 +66,6 @@ namespace AIEDec042020Assessment
             Velocity = new Vector2();
             SetRotation(rotation);
             _children = new Actor[0];
-            _collisionRadius = 20;
         }
 
         public Actor(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
@@ -118,9 +117,26 @@ namespace AIEDec042020Assessment
         #endregion
         public static Actor Instantiate(Actor actor)
         {
-            Game.scene.AddActor(actor);
+            Game.GetCurrentScene().AddActor(actor);
             return actor;
         }
+        public static void Destroy(Actor actor)
+        {
+            Game.GetCurrentScene().RemoveActor(actor);
+        }
+        
+        public void AddCollider(Collider collider)
+        {
+            Instantiate(collider);
+            AddChild(collider);
+            _colliders.Add(collider);
+        }
+
+        public void RemoveCollider(Collider collider)
+        {
+            RemoveChild(collider);
+        }
+
         #region TRANSFORMATION
         public void SetTranslation(Vector2 position)
         {
@@ -252,7 +268,7 @@ namespace AIEDec042020Assessment
 
         public virtual void Draw()
         {
-            // Draw colliders
+            // Draw facing line
             for (int i = 0; i < _colliders.Length; i++)
             {
                 Raylib.DrawCircleLines(
@@ -268,6 +284,7 @@ namespace AIEDec042020Assessment
                (int)(GlobalPosition.Y + (Forward.Y * 50)),
                Color.RED);
 
+            // Draw Sprite
             if (_sprite != null)
                 _sprite.Draw(_globalTransform);
         }
@@ -275,6 +292,14 @@ namespace AIEDec042020Assessment
         public virtual void End()
         {
             Started = false;
+            WillDestroy = true;
+            if (_parent != null)
+                _parent.RemoveChild(this);
+
+            for (int i = 0; i < _children.Length; i++)
+            {
+                _children[i].End();
+            }
         }
         #endregion
     }

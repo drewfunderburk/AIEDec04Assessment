@@ -6,19 +6,10 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
-    class Collider
+    abstract class Collider : Actor
     {
-        public float Radius { get; set; }
-        public Vector2 Position { get; set; }
+        public Collider(Vector2 position, float rotation) : base(position, rotation) { }
 
-        public Collider(Vector2 position, float radius)
-        {
-            Radius = radius;
-        }
-
-        public bool IsCollided()
-        {
-            return false;
-        }
+        public abstract bool IsCollided(Collider other);
     }
 }
