@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -45,7 +45,14 @@ namespace AIEDec042020Assessment
                         GlobalPosition,
                         RotationAngle, (1, 1), ActorID.ENEMY_BULLET)) as Bullet;
                 bullet.Speed = 200;
-                bullet._collisionRadius = 10;
+                if (bullet._colliders.Count > 0)
+                {
+                    if (bullet._colliders[0] is CircleCollider)
+                    {
+                        CircleCollider collider = bullet._colliders[0] as CircleCollider;
+                        collider.Radius = 10;
+                    }
+                }
             }
         }
         #region CORE

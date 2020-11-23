@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -232,22 +232,31 @@ namespace AIEDec042020Assessment
         #region COLLISION
         public bool CheckCollision(Actor other)
         {
-            float distance = (other.GlobalPosition - this.GlobalPosition).Magnitude;
-            if (distance < other._collisionRadius + _collisionRadius)
-                return true;
-            else
+            // Check all of this Actor's colliders against the other Actor's colliders
+            if (_colliders.Count == 0 || other._colliders.Count == 0)
                 return false;
+
+            for (int i = 0; i < _colliders.Count; i++)
+            {
+                for (int n = 0; n < other._colliders.Count; n++)
+                {
+                    if (other._colliders[n].IsCollided(this._colliders[i]))
+                        return true;
+                }
+            }
+            return false;
         }
 
         public virtual bool OnCollision(Actor other)
         {
+            // Do not collide if object is set to be destroyed
+            if (other.WillDestroy)
+                return false;
+
             // Check if objects are really collided
             if (!CheckCollision(other))
                 return false;
 
-            // Do not collide of object is set to be destroyed
-            if (other.WillDestroy)
-                return false;
             return true;
         }
         #endregion
@@ -269,14 +278,6 @@ namespace AIEDec042020Assessment
         public virtual void Draw()
         {
             // Draw facing line
-            for (int i = 0; i < _colliders.Length; i++)
-            {
-                Raylib.DrawCircleLines(
-                    (int)GlobalPosition.X,
-                    (int)GlobalPosition.Y,
-                    _colliders[i].Radius, Color.GREEN);
-            }
-
             Raylib.DrawLine(
                (int)GlobalPosition.X,
                (int)GlobalPosition.Y,
