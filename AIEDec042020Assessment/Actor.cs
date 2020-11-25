@@ -44,6 +44,7 @@ namespace AIEDec042020Assessment
         public float RotationAngle { get; private set; } = 0;
 
         public float Speed { get; set; } = 100;
+        public float MaxSpeed { get; set; } = 300;
         // X-axis forward
         public Vector2 Forward
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
@@ -58,12 +59,14 @@ namespace AIEDec042020Assessment
         }
 
         public Vector2 Velocity { get; set; }
+        protected Vector2 Acceleration { get; set; }
         #endregion
         #region CONSTRUCTORS
         public Actor(Vector2 position, float rotation = 0)
         {
             LocalPosition = position;
             Velocity = new Vector2();
+            Acceleration = new Vector2();
             SetRotation(rotation);
             _children = new Actor[0];
         }
@@ -270,6 +273,10 @@ namespace AIEDec042020Assessment
         public virtual void Update(float deltaTime)
         {
             //Increase position by the current velocity
+            Velocity += Acceleration;
+            if (Velocity.Magnitude > MaxSpeed)
+                Velocity = Velocity.Normalized * MaxSpeed;
+
             LocalPosition += Velocity * deltaTime;
 
             UpdateTransform();
