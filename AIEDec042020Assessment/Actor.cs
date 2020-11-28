@@ -20,7 +20,7 @@ namespace AIEDec042020Assessment
         public bool Started { get; set; }
         public bool WillDestroy { get; set; }
 
-        protected Sprite _sprite;
+        public Sprite _sprite;
 
         public Actor _parent;
         private Actor[] _children;
@@ -207,7 +207,7 @@ namespace AIEDec042020Assessment
             }
             else
             {
-                _globalTransform = _localTransform;
+                _globalTransform = Game.GetCurrentScene()._localTransform * _localTransform;
             }
 
             if (_children != null)
