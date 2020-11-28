@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Raylib_cs;
@@ -111,7 +111,7 @@ namespace AIEDec042020Assessment
             Raylib.SetTargetFPS(60);
 
             // Create a new scene
-            AddScene(new Scene());
+            AddScene(new Level1());
             SetCurrentScene(0);
 
             // Spawn player in the center bottom of the screen
