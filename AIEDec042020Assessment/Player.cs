@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -23,26 +23,32 @@ namespace AIEDec042020Assessment
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
         private System.Diagnostics.Stopwatch _iFrameTimer = new System.Diagnostics.Stopwatch();
 
+        private Actor[] _healthBar;
+
         #region CONSTRUCTORS
         public Player(Vector2 position, float rotation = 0) : base(position, rotation) 
         { 
             _fireRateTimer.Start();
             ID = ActorID.PLAYER;
+            _health = _maxHealth;
         }
         public Player(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
 
         public override bool OnCollision(Actor other)
         {
-            base.OnCollision(other);
+            if (!base.OnCollision(other))
+                return false;
             switch (other.ID)
             {
                 // Take damage on collision with an enemy
                 case ActorID.ENEMY:
                     TakeDamage(1);
+                    Game.GetCurrentScene().CameraIsShaking = true;
                     return true;
                 case ActorID.ENEMY_BULLET:
                     TakeDamage(1);
+                    Game.GetCurrentScene().CameraIsShaking = true;
                     return true;
                 // Do nothing on collision by default
                 default:
