@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Raylib_cs;
@@ -162,6 +162,10 @@ namespace AIEDec042020Assessment
             Raylib.ClearBackground(Color.RAYWHITE);
 
             GetCurrentScene().Draw();
+
+            // Draw Debug
+            Raylib.DrawFPS(Raylib.GetScreenWidth() -100, 10);
+            Raylib.DrawText("Actors: " + GetCurrentScene().NumActors.ToString(), 10, 10, 16, Color.GREEN);
 
             Raylib.EndDrawing();
         }

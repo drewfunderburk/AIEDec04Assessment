@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -11,6 +11,8 @@ namespace AIEDec042020Assessment
         private float _fireDelay = 150;
         private float _colliderRadius = 20;
         private float _maxSpeed = 500;
+        private float _maxHealth = 5;
+        private float _health;
 
         private Vector2 _acceleration = new Vector2();
 
@@ -58,12 +60,10 @@ namespace AIEDec042020Assessment
         }
         public void TakeDamage(int damage)
         {
-            if (Scale.Y - damage < 1)
-            {
+            Console.WriteLine("Damage");
+            _health = Math.Clamp(_health - damage, 0, _maxHealth);
+            if (_health == 0)
                 Game.GameOver = true;
-                return;
-            }
-            SetScale(Scale.X, Scale.Y - damage);
         }
         #region CORE
         public override void Start()
@@ -71,6 +71,20 @@ namespace AIEDec042020Assessment
             base.Start();
             _sprite = new Sprite("Sprites/Player_Ship.png");
             AddCollider(new CircleCollider((0, 0), _colliderRadius));
+
+            // Init Healthbar
+            _healthBar = new Actor[(int)_maxHealth];
+            int barWidth = 100;
+            int barSpacing = 100;
+            for (int i = 0; i < _healthBar.Length; i++)
+            {
+                _healthBar[i] = Actor.Instantiate(new Actor(0, 0));
+                _healthBar[i]._sprite = new Sprite("Sprites/Player_Bullet.png");
+                AddChild(_healthBar[i]);
+
+                int pos = ((-barWidth / 2) + barSpacing * (_healthBar[i]._sprite.Width / 2)) * (i + 1);
+                _healthBar[i].LocalPosition = (-40, pos);
+            }
         }
 
         public override void Update(float deltaTime)
@@ -86,6 +100,8 @@ namespace AIEDec042020Assessment
             {
                 _fireRateTimer.Restart();
                 Bullet bullet = Instantiate(new Bullet(GlobalPosition, RotationAngle, Scale, ActorID.PLAYER_BULLET)) as Bullet;
+                bullet.MaxSpeed = 1000;
+                bullet.Speed = 1000;
             }
 
             // Target mouse position

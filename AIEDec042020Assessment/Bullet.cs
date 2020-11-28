@@ -10,7 +10,7 @@ namespace AIEDec042020Assessment
     {
         private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
 
-        public float DespawnTime { get; set; } = 10000;
+        public float DespawnTime { get; set; } = 5000;
 
         #region CONSTRUCTORS
         public Bullet(Vector2 position, float rotation, Vector2 scale, ActorID ID) : base(position, rotation) 
