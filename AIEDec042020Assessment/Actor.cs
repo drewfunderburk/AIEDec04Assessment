@@ -6,8 +6,14 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Base class for all objects used in this game
+    /// </summary>
     class Actor
     {
+        /// <summary>
+        /// Used by collision to determine what sort of actor this is
+        /// </summary>
         public enum ActorID
         {
             PLAYER,
@@ -17,11 +23,24 @@ namespace AIEDec042020Assessment
             POWER_UP
         }
 
+        /// <summary>
+        /// Whether or not this actor has been started
+        /// </summary>
         public bool Started { get; set; }
+
+        /// <summary>
+        /// Whether or not this actor will be destroyed on the next update
+        /// </summary>
         public bool WillDestroy { get; set; }
 
+        /// <summary>
+        /// This actor's sprite
+        /// </summary>
         public Sprite _sprite;
 
+        /// <summary>
+        /// This actor's parent
+        /// </summary>
         public Actor _parent;
         private Actor[] _children;
 
@@ -32,33 +51,67 @@ namespace AIEDec042020Assessment
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
 
+        /// <summary>
+        /// This actor's colliders
+        /// </summary>
         public List<Collider> _colliders = new List<Collider>();
 
 
-        // ID to identify what type of actor this is. Defaults to Enemy
+        /// <summary>
+        /// ID to identify what type of actor this is. Defaults to Enemy
+        /// </summary>
         public ActorID ID = ActorID.ENEMY;
 
         #region PROPERTIES
+        /// <summary>
+        /// This actor's scale
+        /// </summary>
         public Vector2 Scale { get; protected set; } = (1, 1);
 
+        /// <summary>
+        /// This actor's rotation angle
+        /// </summary>
         public float RotationAngle { get; private set; } = 0;
 
+        /// <summary>
+        /// This actor's rate of acceleration
+        /// </summary>
         public float Speed { get; set; } = 100;
+
+        /// <summary>
+        /// This actor's top speed
+        /// </summary>
         public float MaxSpeed { get; set; } = 300;
-        // X-axis forward
+
+        /// <summary>
+        /// X-axis forward
+        /// </summary>
         public Vector2 Forward
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
 
+        /// <summary>
+        /// Position relative to global 0, 0
+        /// </summary>
         public Vector2 GlobalPosition
         { get { return new Vector2(_globalTransform.m13, _globalTransform.m23); } }
 
+        /// <summary>
+        /// Position relative to parent
+        /// </summary>
         public Vector2 LocalPosition
         {
             get { return new Vector2(_localTransform.m13, _localTransform.m23); }
             set { SetTranslation(value); }
         }
 
+        /// <summary>
+        /// This actor's current velocity
+        /// </summary>
         public Vector2 Velocity { get; set; }
+
+        /// <summary>
+        /// This actor's current acceleration
+        /// </summary>
         protected Vector2 Acceleration { get; set; }
         #endregion
         #region CONSTRUCTORS
@@ -74,6 +127,11 @@ namespace AIEDec042020Assessment
         public Actor(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
         #region CHILDREN
+        /// <summary>
+        /// Add a child to this actor
+        /// </summary>
+        /// <param name="child">The actor to be added</param>
+        /// <returns></returns>
         public bool AddChild(Actor child)
         {
             if (child == null)
@@ -91,6 +149,11 @@ namespace AIEDec042020Assessment
             return true;
         }
 
+        /// <summary>
+        /// Removes a child from this actor
+        /// </summary>
+        /// <param name="child">The actor to be removed</param>
+        /// <returns></returns>
         public bool RemoveChild(Actor child)
         {
             if (child == null)
@@ -118,16 +181,31 @@ namespace AIEDec042020Assessment
             return childRemoved;
         }
         #endregion
+        #region UTILITY
+        /// <summary>
+        /// Adds an actor to the scene
+        /// </summary>
+        /// <param name="actor">The actor to be added</param>
+        /// <returns></returns>
         public static Actor Instantiate(Actor actor)
         {
             Game.GetCurrentScene().AddActor(actor);
             return actor;
         }
+
+        /// <summary>
+        /// Removes an actor from the scene
+        /// </summary>
+        /// <param name="actor">The actor to be removed</param>
         public static void Destroy(Actor actor)
         {
             Game.GetCurrentScene().RemoveActor(actor);
         }
         
+        /// <summary>
+        /// Adds a collider to this actor
+        /// </summary>
+        /// <param name="collider">The collider to be added</param>
         public void AddCollider(Collider collider)
         {
             Instantiate(collider);
@@ -135,25 +213,43 @@ namespace AIEDec042020Assessment
             _colliders.Add(collider);
         }
 
+        /// <summary>
+        /// Removes a collider from this actor
+        /// </summary>
+        /// <param name="collider">The collider to be removed</param>
         public void RemoveCollider(Collider collider)
         {
+            _colliders.Remove(collider);
             RemoveChild(collider);
         }
-
+        #endregion
         #region TRANSFORMATION
+        /// <summary>
+        /// Sets the actor's local tranlation to the given position
+        /// </summary>
+        /// <param name="position">Position</param>
         public void SetTranslation(Vector2 position)
         {
             _translation = Matrix3.CreateTranslation(position);
             UpdateTransform();
         }
 
+        /// <summary>
+        /// Sets the actor's local rotation to the given value
+        /// </summary>
+        /// <param name="radians">Rotation value in radians</param>
         public void SetRotation(float radians)
         {
+            // Update RotationAngle so that this angle can be retrieved easily
             RotationAngle = radians;
             _rotation = Matrix3.CreateRotation(radians);
             UpdateTransform();
         }
 
+        /// <summary>
+        /// Rotate the actor's local transform a given amount
+        /// </summary>
+        /// <param name="radians">Amount to rotate</param>
         public void Rotate(float radians)
         {
             RotationAngle += radians;
@@ -161,6 +257,11 @@ namespace AIEDec042020Assessment
             UpdateTransform();
         }
 
+        /// <summary>
+        /// Sets the actor's local scale to the given value
+        /// </summary>
+        /// <param name="x">Value to scale on the X-Axis</param>
+        /// <param name="y">Value to scale on the Y-Axis</param>
         public void SetScale(float x, float y)
         {
             _scale = Matrix3.CreateScale(new Vector2(x, y));
@@ -168,9 +269,17 @@ namespace AIEDec042020Assessment
             UpdateTransform();
         }
 
+        /// <summary>
+        /// Sets the actor's local scale to the given value
+        /// </summary>
+        /// <param name="scale">Value to scale by</param>
         public void SetScale(Vector2 scale)
         { SetScale(scale.X, scale.Y); }
 
+        /// <summary>
+        /// Rotate this actor to face a position
+        /// </summary>
+        /// <param name="position">Position to face</param>
         public void LookAt(Vector2 position)
         {
             // Find the direction to look at
@@ -199,6 +308,9 @@ namespace AIEDec042020Assessment
             Rotate(angle);
         }
 
+        /// <summary>
+        /// Update this actor's global transform and it's children
+        /// </summary>
         protected void UpdateGlobalTransform()
         {
             if (_parent != null)
@@ -219,6 +331,9 @@ namespace AIEDec042020Assessment
             }
         }
 
+        /// <summary>
+        /// Update this actor's local transform and the global transform's of it's children
+        /// </summary>
         protected void UpdateTransform()
         {
             UpdateGlobalTransform();
@@ -233,6 +348,11 @@ namespace AIEDec042020Assessment
         }
         #endregion
         #region COLLISION
+        /// <summary>
+        /// Check if this actor has collided with another
+        /// </summary>
+        /// <param name="other">Other actor</param>
+        /// <returns></returns>
         public bool CheckCollision(Actor other)
         {
             // Check all of this Actor's colliders against the other Actor's colliders
@@ -250,6 +370,11 @@ namespace AIEDec042020Assessment
             return false;
         }
 
+        /// <summary>
+        /// Actions to perform if a collision is detected
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public virtual bool OnCollision(Actor other)
         {
             // Do not collide if object is set to be destroyed
@@ -260,16 +385,24 @@ namespace AIEDec042020Assessment
             if (!CheckCollision(other))
                 return false;
 
+            // Returns a boolean for children to easily check if these base conditions are satisfied
             return true;
         }
         #endregion
         #region CORE
+        /// <summary>
+        /// Called when this actor is started
+        /// </summary>
         public virtual void Start()
         {
             Started = true;
             _children = new Actor[0];
         }
 
+        /// <summary>
+        /// Called every frame. Updates actor logic
+        /// </summary>
+        /// <param name="deltaTime">Duration of last frame</param>
         public virtual void Update(float deltaTime)
         {
             //Increase position by the current velocity
@@ -277,11 +410,15 @@ namespace AIEDec042020Assessment
             if (Velocity.Magnitude > MaxSpeed)
                 Velocity = Velocity.Normalized * MaxSpeed;
 
+            // Update local position
             LocalPosition += Velocity * deltaTime;
 
             UpdateTransform();
         }
 
+        /// <summary>
+        /// Called every frame. Draws actor to the screen
+        /// </summary>
         public virtual void Draw()
         {
             // Draw facing line
@@ -297,6 +434,9 @@ namespace AIEDec042020Assessment
                 _sprite.Draw(_globalTransform);
         }
 
+        /// <summary>
+        /// Called when an actor is destroyed
+        /// </summary>
         public virtual void End()
         {
             Started = false;
