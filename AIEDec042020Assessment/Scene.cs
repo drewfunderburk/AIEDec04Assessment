@@ -8,9 +8,19 @@ namespace AIEDec042020Assessment
 {
     class Scene
     {
+        /// <summary>
+        /// Whether this scene has been started
+        /// </summary>
         public bool Started { get; set; }
+
+        /// <summary>
+        /// Number of actors in the scene
+        /// </summary>
         public int NumActors { get { return _actors.Length; } }
 
+        /// <summary>
+        /// Array of all actors in this scene
+        /// </summary>
         protected Actor[] _actors;
 
         // Transform matrices
@@ -20,14 +30,17 @@ namespace AIEDec042020Assessment
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
 
+        // Used for camerashake to determine how many times we have moved the scene
         private int _shakeCounter = 0;
 
+        // Whether or not the camera is shaking
         private bool _cameraIsShaking = false;
         public bool CameraIsShaking
         {
             get => _cameraIsShaking;
             set
             {
+                // Always restart the shake timer if this variable is set
                 if (_timer.IsRunning)
                     _timer.Restart();
                 else
@@ -45,45 +58,69 @@ namespace AIEDec042020Assessment
             _actors = new Actor[0];
         }
 
+        /// <summary>
+        /// Simulates camera shake by moving the scene to a series of random points before
+        ///  recentering it at the origin
+        /// </summary>
         public void ShakeCamera()
         {
             if (_cameraIsShaking)
             {
+                // How much shake
                 int severity = 30;
+
+                // Randomized x and y positions based on severity
                 int x = new Random().Next(-severity, severity);
                 int y = new Random().Next(-severity, severity);
 
+                // Delay between shakes
                 int delay = 5;
+
+                // How many shakes
                 int positions = 5;
 
+                // Check if we are ready for the next position
                 if (_timer.ElapsedMilliseconds > _shakeCounter * delay)
                 {
+                    // Move to the next position
                     SetTranslation((x, y));
                     _shakeCounter++;
                 }
 
+                // Check if we have shaken enough times
                 if (_shakeCounter >= positions)
                 {
                     _shakeCounter = 0;
                     _cameraIsShaking = false;
+                    // Reset scene to origin
                     SetTranslation((0, 0));
                 }
             }
         }
-
         #region TRANSFORMATION
+        /// <summary>
+        /// Sets the scene's position
+        /// </summary>
+        /// <param name="position">Position</param>
         public void SetTranslation(Vector2 position)
         {
             _translation = Matrix3.CreateTranslation(position);
             UpdateTransform();
         }
+
+        /// <summary>
+        /// Updates the scene's transform
+        /// </summary>
         protected void UpdateTransform()
         {
             _localTransform = _translation * _rotation * _scale;
         }
         #endregion
-
         #region ACTOR METHODS
+        /// <summary>
+        /// Add an actor to the scene
+        /// </summary>
+        /// <param name="actor">Actor to be added</param>
         public void AddActor(Actor actor)
         {
             //Create a new array with a size one greater than our old array
@@ -99,6 +136,11 @@ namespace AIEDec042020Assessment
             _actors = appendedArray;
         }
 
+        /// <summary>
+        /// Remove an actor from the scene
+        /// </summary>
+        /// <param name="index">Index to remove</param>
+        /// <returns></returns>
         public bool RemoveActor(int index)
         {
             //Check to see if the index is outside the bounds of our array
@@ -136,6 +178,11 @@ namespace AIEDec042020Assessment
             return actorRemoved;
         }
 
+        /// <summary>
+        /// Remove an actor from the scene
+        /// </summary>
+        /// <param name="actor">Actor to remove</param>
+        /// <returns></returns>
         public bool RemoveActor(Actor actor)
         {
             //Check to see if the actor was null
@@ -171,7 +218,9 @@ namespace AIEDec042020Assessment
             return actorRemoved;
         }
 
-        // Removes actors set to be removed
+        /// <summary>
+        /// Removes actors set to be removed
+        /// </summary>
         private void DestroyActors()
         {
             for (int i = 0; i < _actors.Length; i++)
@@ -181,18 +230,28 @@ namespace AIEDec042020Assessment
             }
         }
         #endregion
-
         #region CORE
+        /// <summary>
+        /// Start the scene
+        /// </summary>
         public virtual void Start()
         {
             Started = true;
             _timer.Start();
         }
 
+        /// <summary>
+        /// Update the scene and all actors contained in it
+        /// </summary>
+        /// <param name="deltaTime"></param>
         public virtual void Update(float deltaTime)
         {
+            // Update the scene's transform
             UpdateTransform();
+            
+            // Do camera shake if applicable
             ShakeCamera();
+
             // Update all actors
             for (int i = 0; i < _actors.Length; i++)
             {
@@ -223,6 +282,9 @@ namespace AIEDec042020Assessment
             DestroyActors();
         }
 
+        /// <summary>
+        /// Draw all actors to the screen
+        /// </summary>
         public virtual void Draw()
         {
             for (int i = 0; i < _actors.Length; i++)
@@ -231,6 +293,9 @@ namespace AIEDec042020Assessment
             }
         }
 
+        /// <summary>
+        /// End the scene and all actors contained in it
+        /// </summary>
         public virtual void End()
         {
             for (int i = 0; i < _actors.Length; i++)

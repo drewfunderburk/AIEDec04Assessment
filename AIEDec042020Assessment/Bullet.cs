@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -6,11 +6,17 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Projectile to be fired
+    /// </summary>
     class Bullet : Actor
     {
         // Timer used for auto-destroy
         private System.Diagnostics.Stopwatch _timer = new System.Diagnostics.Stopwatch();
 
+        /// <summary>
+        /// Maximum time this bullet should live
+        /// </summary>
         public float DespawnTime { get; set; } = 5000;
 
         #region CONSTRUCTORS
@@ -58,12 +64,15 @@ namespace AIEDec042020Assessment
             base.Start();
             _timer.Start();
 
+            // Set sprite based on what type of bullet this is
             if (ID == ActorID.ENEMY_BULLET)
                 _sprite = new Sprite("Sprites/Enemy_Bullet.png");
             else if (ID == ActorID.PLAYER_BULLET)
                 _sprite = new Sprite("Sprites/Player_Bullet.png");
+
             _sprite.Scale = 2;
 
+            // Add collider
             AddCollider(new CircleCollider((0, 0), 5));
         }
         public override void Update(float deltaTime)
@@ -72,6 +81,7 @@ namespace AIEDec042020Assessment
             if (_timer.ElapsedMilliseconds > DespawnTime)
                 WillDestroy = true;
 
+            // Move bullet forward
             Velocity = Forward * Speed;
             base.Update(deltaTime);
         }

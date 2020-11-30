@@ -13,6 +13,10 @@ namespace AIEDec042020Assessment
 
         public Level() : base() { }
 
+        /// <summary>
+        /// Get the number of enemies remaining in the scene
+        /// </summary>
+        /// <returns></returns>
         public int GetRemainingEnemies()
         {
             int count = 0;

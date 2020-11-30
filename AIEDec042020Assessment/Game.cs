@@ -5,29 +5,52 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Base game class. Contains the game loop.
+    /// </summary>
     class Game
     {
+        // All scenes in the game
         private static Scene[] _scenes = new Scene[0];
 
+        // Index of the current scene
         private static int _currentSceneIndex;
+
+        // Should the game end
         public static bool GameOver { get; set; }
+
         public static int CurrentSceneIndex { get => _currentSceneIndex; set => _currentSceneIndex = value; }
 
 
         #region SCENE
+        /// <summary>
+        /// Retrieve a scene
+        /// </summary>
+        /// <param name="index">Scene index</param>
+        /// <returns></returns>
         public static Scene GetScene(int index)
         {
+            // Return a new scene if index is invalid
             if (index < 0 || index >= _scenes.Length)
                 return new Scene();
 
             return _scenes[index];
         }
 
+        /// <summary>
+        /// Get the current scene
+        /// </summary>
+        /// <returns></returns>
         public static Scene GetCurrentScene()
         {
             return _scenes[_currentSceneIndex];
         }
 
+        /// <summary>
+        /// Add a scene to the game
+        /// </summary>
+        /// <param name="scene">Scene to be added</param>
+        /// <returns></returns>
         public static int AddScene(Scene scene)
         {
             //If the scene is null then return before running any other logic
@@ -52,9 +75,15 @@ namespace AIEDec042020Assessment
             //Set the old array to the tmeporary array
             _scenes = tempArray;
 
+            // Return scene index
             return index;
         }
 
+        /// <summary>
+        /// Remove a scene from the game
+        /// </summary>
+        /// <param name="scene">Scene to be removed</param>
+        /// <returns></returns>
         public static bool RemoveScene(Scene scene)
         {
             //If the scene is null then return before running any other logic
@@ -85,9 +114,14 @@ namespace AIEDec042020Assessment
             if (sceneRemoved)
                 _scenes = tempArray;
 
+            // Return whether or not operation was successful
             return sceneRemoved;
         }
 
+        /// <summary>
+        /// Set the current scene
+        /// </summary>
+        /// <param name="index">Index of scene</param>
         public static void SetCurrentScene(int index)
         {
             //If the index is not within the range of the the array return
@@ -104,6 +138,9 @@ namespace AIEDec042020Assessment
         #endregion
 
         #region CORE
+        /// <summary>
+        /// Runs when the game starts
+        /// </summary>
         private void Start()
         {
             // Init Raylib window
@@ -120,64 +157,58 @@ namespace AIEDec042020Assessment
                 Raylib.GetScreenHeight() * 0.95f, 
                 (float)Math.PI / 2)) as Player;
             player.Speed = 40;
-
-
-            /*
-            // Base Enemy
-            Enemy enemy = Actor.Instantiate(new Enemy(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() * 0.2f)) as Enemy;
-            enemy.Target = player;
-
-            // String of patrol enemies
-            for (int i = -2; i < 3; i++)
-            {
-                PatrolEnemy p = Actor.Instantiate(new PatrolEnemy((Raylib.GetScreenWidth() * 0.75f, -10 - (i * 50)))) as PatrolEnemy;
-                p.Target = player;
-            }
-
-            // String of Homing Enemy
-            for (int i = -2; i < 3; i++)
-            {
-                HomingEnemy h = Actor.Instantiate(new HomingEnemy(((Raylib.GetScreenWidth() / 2) + (i * 50), -10))) as HomingEnemy;
-                h.Target = player;
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                PowerUp powerUp = Actor.Instantiate(new PowerUp((Raylib.GetScreenWidth() / 2, -10 + (i * 50)))) as PowerUp;
-
-            }
-            */
         }
 
+        /// <summary>
+        /// Runs every frame. Used for game logic
+        /// </summary>
+        /// <param name="deltaTime">Duratin of last frame</param>
         private void Update(float deltaTime)
         {
+            // Start the current scene if it isn't already
             if (!GetCurrentScene().Started)
                 GetCurrentScene().Start();
 
+            // Update current scene
             GetCurrentScene().Update(deltaTime);
         }
 
+        /// <summary>
+        /// Runs every frame. Used for drawing to the screen
+        /// </summary>
         private void Draw()
         {
+            // Begin Raylib Drawing
             Raylib.BeginDrawing();
+
+            // Clear the screen
             Raylib.ClearBackground(Color.RAYWHITE);
 
+
+            // Draw the current scene to the screen
             GetCurrentScene().Draw();
 
-            // Draw Debug
+            // Draw Debug info
             Raylib.DrawFPS(Raylib.GetScreenWidth() -100, 10);
             Raylib.DrawText("Actors: " + GetCurrentScene().NumActors.ToString(), 10, 10, 16, Color.GREEN);
 
+            // End Raylib Drawing
             Raylib.EndDrawing();
         }
 
         private void End()
         {
+            // End the current scene
             GetCurrentScene().End();
         }
 
+        /// <summary>
+        /// Game Loop
+        /// </summary>
         public void Run()
         {
             Start();
+            // Game Loop
             while(!GameOver && !Raylib.WindowShouldClose())
             {
                 float deltaTime = Raylib.GetFrameTime();

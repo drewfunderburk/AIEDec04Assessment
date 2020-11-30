@@ -8,20 +8,30 @@ namespace AIEDec042020Assessment
 {
     //v0.1
 
+    /// <summary>
+    /// Specifies an image to be used in 2D space
+    /// </summary>
     class Sprite
     {
+        // Texture object
         private Texture2D _texture;
+
+        // Scale of all sprites
         private float _scale = 32;
         public float Scale { get { return _scale; } set { _scale = value * 32; } }
 
-        //Width of the loaded texture
+        /// <summary>
+        /// Width of the loaded texture
+        /// </summary>
         public int Width
         {
             get { return _texture.width; }
             set { _texture.width = value; }
         }
 
-        //Height of the loaded texture
+        /// <summary>
+        /// Height of the loaded texture
+        /// </summary>
         public int Height
         {
             get { return _texture.height; }

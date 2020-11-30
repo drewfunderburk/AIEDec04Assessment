@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -6,14 +6,24 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Class to define the player
+    /// </summary>
     class Player : Actor
     {
+        // Delay between shots
         private float _fireDelay = 150;
+
+        // Radius of colliders
         private float _colliderRadius = 20;
 
+        // Maximum health
         private float _maxHealth = 5;
+
+        // Current health
         private float _health;
 
+        // Current acceleration
         private Vector2 _acceleration = new Vector2();
 
         // Player screen boundaries
@@ -24,21 +34,23 @@ namespace AIEDec042020Assessment
 
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
 
-
         #region CONSTRUCTORS
         public Player(Vector2 position, float rotation = 0) : base(position, rotation) 
         { 
             _fireRateTimer.Start();
             ID = ActorID.PLAYER;
             _health = _maxHealth;
+            MaxSpeed = 500;
         }
         public Player(float x, float y, float rotation = 0) : this(new Vector2(x, y), rotation) { }
         #endregion
 
         public override bool OnCollision(Actor other)
         {
+            // Check if base conditions are met before continuing
             if (!base.OnCollision(other))
                 return false;
+
             switch (other.ID)
             {
                 // Take damage on collision with an enemy
@@ -56,10 +68,17 @@ namespace AIEDec042020Assessment
             }
             return false;
         }
+
+        /// <summary>
+        /// Causes the player to take damage
+        /// </summary>
+        /// <param name="damage">Amount of damage</param>
         public void TakeDamage(int damage)
         {
             // Ensure health is always between 0 and MaxHealth
             _health = Math.Clamp(_health - damage, 0, _maxHealth);
+
+            // Set game over if health == 0
             if (_health == 0)
                 Game.GameOver = true;
         }
@@ -67,7 +86,11 @@ namespace AIEDec042020Assessment
         public override void Start()
         {
             base.Start();
+
+            // Set player sprite
             _sprite = new Sprite("Sprites/Player_Ship.png");
+
+            // Add collider
             AddCollider(new CircleCollider((0, 0), _colliderRadius));
         }
 
@@ -79,11 +102,16 @@ namespace AIEDec042020Assessment
             int yDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_W))
                 + Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_S));
             
-            // Shooting
+            // Check if we can shoot
             if (_fireRateTimer.ElapsedMilliseconds > _fireDelay && Raylib.IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
             {
+                // Restart fire timer
                 _fireRateTimer.Restart();
+
+                // Create a new bullet
                 Bullet bullet = Instantiate(new Bullet(GlobalPosition, RotationAngle, Scale, ActorID.PLAYER_BULLET)) as Bullet;
+
+                // Set the bullet's speed
                 bullet.MaxSpeed = 1000;
                 bullet.Speed = 1000;
             }
@@ -109,7 +137,7 @@ namespace AIEDec042020Assessment
             if (Velocity.Magnitude > MaxSpeed)
                 Velocity = Velocity.Normalized * MaxSpeed;
 
-            // Clamp drifting
+            // Clamp drifting when velocity approaches 0
             if (Math.Abs(Velocity.X) < 2)
                 Velocity = (0, Velocity.Y);
             if (Math.Abs(Velocity.Y) < 2)

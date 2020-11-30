@@ -19,6 +19,7 @@ namespace AIEDec042020Assessment
 
         public override void Update(float deltaTime)
         {
+            // Move forward towards Target
             Velocity = Forward * Speed;
             base.Update(deltaTime);
         }

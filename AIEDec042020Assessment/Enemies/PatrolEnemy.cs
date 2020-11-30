@@ -25,12 +25,8 @@ namespace AIEDec042020Assessment
         }
         public override void Update(float deltaTime)
         {
-            /*
-            // Reverse X direction when reaching end of patrol
-            if (Math.Abs(GlobalPosition.X - _startingX) > PatrolDistance)
-                Velocity.X *= -1;
-            */
-
+            // These calculations are not mathmatically correct for the behavior I want,
+            // But these values if not changed produce the desired effect.
             Velocity = ((PatrolDistance * 2)  * (float)Math.Cos(GlobalPosition.Y / (PatrolDistance / 2)), Speed);
 
             // Send to top again if it goes off the screen
