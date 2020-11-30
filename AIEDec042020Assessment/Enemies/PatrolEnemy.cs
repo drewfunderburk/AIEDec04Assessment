@@ -6,9 +6,14 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Enemy that patrols back and forth on the X axis
+    /// </summary>
     class PatrolEnemy : Enemy
     {
+        // Distance to patrol
         public float PatrolDistance { get; set; }
+        // Starting X position
         private float _startingX;
 
         public PatrolEnemy(Vector2 position, float rotation = 0, float patrolDistance = 100) : base(position, rotation)

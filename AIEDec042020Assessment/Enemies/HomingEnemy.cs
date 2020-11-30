@@ -6,6 +6,9 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Enemy that homes in on a target
+    /// </summary>
     class HomingEnemy : Enemy
     {
         public HomingEnemy(Vector2 position, float rotation = 0) : base(position, rotation) { }

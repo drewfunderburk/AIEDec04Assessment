@@ -8,7 +8,7 @@ namespace AIEDec042020Assessment
 {
     class Level : Scene
     {
-        protected System.Diagnostics.Stopwatch _timer;
+        
         protected Player _player;
 
         public Level() : base() { }
@@ -46,9 +46,6 @@ namespace AIEDec042020Assessment
             }
             if (_player == null)
                 throw new NullReferenceException();
-
-            _timer = new System.Diagnostics.Stopwatch();
-            _timer.Start();
         }
         #endregion
     }

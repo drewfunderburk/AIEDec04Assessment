@@ -32,9 +32,15 @@ namespace AIEDec042020Assessment
         private float _bottomBoundary = Raylib.GetScreenHeight() * 0.95f;
         private float _topBoundary =    Raylib.GetScreenHeight() * 0.3f;
 
+        // Timer for use in fire rate
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Creates a new player
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
         public Player(Vector2 position, float rotation = 0) : base(position, rotation) 
         { 
             _fireRateTimer.Start();

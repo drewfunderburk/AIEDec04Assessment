@@ -6,6 +6,9 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Holds actors and objects in a contained space
+    /// </summary>
     class Scene
     {
         /// <summary>
@@ -50,6 +53,7 @@ namespace AIEDec042020Assessment
             }
         }
 
+        // Timer used for camera shake
         private System.Diagnostics.Stopwatch _timer = new System.Diagnostics.Stopwatch();
 
         public Scene()
@@ -62,7 +66,7 @@ namespace AIEDec042020Assessment
         /// Simulates camera shake by moving the scene to a series of random points before
         ///  recentering it at the origin
         /// </summary>
-        public void ShakeCamera()
+        private void ShakeCamera()
         {
             if (_cameraIsShaking)
             {

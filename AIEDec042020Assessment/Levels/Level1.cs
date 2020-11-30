@@ -6,6 +6,9 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// First level in the game
+    /// </summary>
     class Level1 : Level
     {
         /// <summary>
@@ -40,6 +43,9 @@ namespace AIEDec042020Assessment
 
         // Store this level's waves
         private Wave[] _waves = new Wave[5];
+
+        // Timer for wave timings
+        private System.Diagnostics.Stopwatch _timer;
 
         public Level1() : base() { }
 
@@ -83,6 +89,10 @@ namespace AIEDec042020Assessment
         public override void Start()
         {
             base.Start();
+
+            // Start timer
+            _timer = new System.Diagnostics.Stopwatch();
+            _timer.Start();
 
             // Initialize waves
             for (int i = 0; i < _waves.Length; i++)

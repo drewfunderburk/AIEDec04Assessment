@@ -20,7 +20,6 @@ namespace AIEDec042020Assessment
             ENEMY,
             PLAYER_BULLET,
             ENEMY_BULLET,
-            POWER_UP
         }
 
         /// <summary>
@@ -42,6 +41,8 @@ namespace AIEDec042020Assessment
         /// This actor's parent
         /// </summary>
         public Actor _parent;
+
+        // This actor's children
         private Actor[] _children;
 
         // Transform matrices
@@ -247,9 +248,9 @@ namespace AIEDec042020Assessment
         }
 
         /// <summary>
-        /// Rotate the actor's local transform a given amount
+        /// Rotate the actor's local transform by the given value
         /// </summary>
-        /// <param name="radians">Amount to rotate</param>
+        /// <param name="radians">Amount to rotate in radians</param>
         public void Rotate(float radians)
         {
             RotationAngle += radians;

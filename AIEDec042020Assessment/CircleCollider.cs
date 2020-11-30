@@ -16,6 +16,11 @@ namespace AIEDec042020Assessment
         /// </summary>
         public float Radius { get; set; }
 
+        /// <summary>
+        /// Creates a new CircleCollider
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="radius"></param>
         public CircleCollider(Vector2 position, float radius) : base(position, (float)Math.PI / 2)
         {
             Radius = radius;
@@ -30,7 +35,7 @@ namespace AIEDec042020Assessment
                 Color.RED);
         }
 
-        // Implement basic circle-circle collision
+        // Checks collision against another collider
         public override bool IsCollided(Collider collidedActor)
         {
             // Check if other collider is also a circle

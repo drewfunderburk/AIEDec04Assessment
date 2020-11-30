@@ -6,6 +6,9 @@ using Raylib_cs;
 
 namespace AIEDec042020Assessment
 {
+    /// <summary>
+    /// Base class for all enemies
+    /// </summary>
     class Enemy : Actor
     {
         private float _fireDelay;

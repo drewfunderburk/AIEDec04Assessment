@@ -13,13 +13,11 @@ namespace AIEDec042020Assessment
         // All scenes in the game
         private static Scene[] _scenes = new Scene[0];
 
-        // Index of the current scene
-        private static int _currentSceneIndex;
-
         // Should the game end
         public static bool GameOver { get; set; }
 
-        public static int CurrentSceneIndex { get => _currentSceneIndex; set => _currentSceneIndex = value; }
+        // Index of the current scene
+        public static int CurrentSceneIndex { get; set; }
 
 
         #region SCENE
@@ -43,7 +41,7 @@ namespace AIEDec042020Assessment
         /// <returns></returns>
         public static Scene GetCurrentScene()
         {
-            return _scenes[_currentSceneIndex];
+            return _scenes[CurrentSceneIndex];
         }
 
         /// <summary>
@@ -129,11 +127,11 @@ namespace AIEDec042020Assessment
                 return;
 
             //Call end for the previous scene before changing to the new one
-            if (_scenes[_currentSceneIndex].Started)
-                _scenes[_currentSceneIndex].End();
+            if (_scenes[CurrentSceneIndex].Started)
+                _scenes[CurrentSceneIndex].End();
 
             //Update the current scene index
-            _currentSceneIndex = index;
+            CurrentSceneIndex = index;
         }
         #endregion
 
@@ -196,6 +194,9 @@ namespace AIEDec042020Assessment
             Raylib.EndDrawing();
         }
 
+        /// <summary>
+        /// Runs when the game ends
+        /// </summary>
         private void End()
         {
             // End the current scene
