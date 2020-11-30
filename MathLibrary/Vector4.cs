@@ -89,24 +89,32 @@ namespace MathLibrary
             return new Vector4(cross.X, cross.Y, cross.Z, 0);
         }
 
+
+        // Overload Tuple to allow easy Vector4 creation
         public static implicit operator Vector4((float, float, float, float) tuple)
         { return new Vector4(tuple.Item1, tuple.Item2, tuple.Item3, tuple.Item4); }
 
+        // Vector4-Vector4 addition
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         { return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W); }
 
+        // Vector4-Vector4 subtraction
         public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
         { return new Vector4(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W); }
 
+        // Vector4-Scalar multiplication
         public static Vector4 operator *(Vector4 lhs, float rhs)
         { return new Vector4(lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs, lhs.W * rhs); }
 
+        // Scalar-Vector4 multiplication
         public static Vector4 operator *(float lhs, Vector4 rhs)
         { return new Vector4(lhs * rhs.X, lhs * rhs.Y, lhs * rhs.Z, lhs * rhs.W); }
 
+        // Vector4-Scalar division
         public static Vector4 operator /(Vector4 lhs, float rhs)
         { return new Vector4(lhs.X / rhs, lhs.Y / rhs, lhs.Z / rhs, lhs.W / rhs); }
 
+        // Scalar-vector4 division
         public static Vector4 operator /(float lhs, Vector4 rhs)
         { return new Vector4(lhs / rhs.X, lhs / rhs.Y, lhs / rhs.Z, lhs / rhs.W); }
     }

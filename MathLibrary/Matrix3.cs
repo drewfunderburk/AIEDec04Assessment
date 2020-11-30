@@ -12,7 +12,7 @@ namespace MathLibrary
             m31, m32, m33;
 
         /// <summary>
-        /// Initializes a new Matrix3 with an identity matrix
+        /// Creates a new Matrix3 with an identity matrix
         /// </summary>
         public Matrix3()
         {
@@ -22,7 +22,7 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Initializes a new Matrix3 with the given values
+        /// Creates a new Matrix3 with the given values
         /// </summary>
         /// <param name="m11">Row 1 Column 1</param>
         /// <param name="m12">Row 1 Column 2</param>
@@ -82,6 +82,7 @@ namespace MathLibrary
                 0, 0, 1);
         }
 
+        // Matrix3-Matrix3 addition
         public static Matrix3 operator +(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
@@ -92,6 +93,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix3-Matrix3 subtraction
         public static Matrix3 operator -(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
@@ -102,6 +104,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix3-Matrix3 multiplication
         public static Matrix3 operator *(Matrix3 lhs, Matrix3 rhs)
         {
             return new Matrix3
@@ -129,6 +132,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix3-Vector3 multiplication
         public static Vector3 operator *(Matrix3 lhs, Vector3 rhs)
         {
             return new Vector3(
@@ -138,6 +142,7 @@ namespace MathLibrary
                 );
         }
 
+        // Vector3-Matrix3 multiplication
         public static Vector3 operator *(Vector3 lhs, Matrix3 rhs)
         {
             return new Vector3(

@@ -43,6 +43,12 @@ namespace MathLibrary
             Z = 0;
         }
 
+        /// <summary>
+        /// Constructs a new Vector3 from the given values (x, y, z)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public Vector3(float x, float y, float z)
         {
             X = x;
@@ -85,24 +91,32 @@ namespace MathLibrary
                 lhs.X * rhs.Y - lhs.Y * rhs.X);
         }
 
+
+        // Overload Tuple to allow easy Vector3 creation
         public static implicit operator Vector3((float, float, float) tuple)
         { return new Vector3(tuple.Item1, tuple.Item2, tuple.Item3); }
 
+        // Vector3-Vector3 addition
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
         { return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z); }
 
+        // Vector3-Vector3 subtraction
         public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
         { return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z); }
 
+        // Vector3-Scalar multiplication
         public static Vector3 operator *(Vector3 lhs, float rhs)
         { return new Vector3(lhs.X * rhs, lhs.Y * rhs, lhs.Z * rhs); }
 
+        // Scalar-Vector3 multiplication
         public static Vector3 operator *(float lhs, Vector3 rhs)
         { return new Vector3(lhs * rhs.X, lhs * rhs.Y, lhs * rhs.Z); }
 
+        // Vector3-Scalar division
         public static Vector3 operator /(Vector3 lhs, float rhs)
         { return new Vector3(lhs.X / rhs, lhs.Y / rhs, lhs.Z / rhs); }
 
+        // Scalar-Vector3 division
         public static Vector3 operator /(float lhs, Vector3 rhs)
         { return new Vector3(lhs / rhs.X, lhs / rhs.Y, lhs / rhs.Z); }
     }

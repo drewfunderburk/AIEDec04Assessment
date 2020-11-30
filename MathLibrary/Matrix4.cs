@@ -13,7 +13,7 @@ namespace MathLibrary
             m41, m42, m43, m44;
 
         /// <summary>
-        /// Initializes a new Matrix4 with an identity matrix
+        /// Creates a new Matrix4 with an identity matrix
         /// </summary>
         public Matrix4()
         {
@@ -24,7 +24,7 @@ namespace MathLibrary
         }
 
         /// <summary>
-        /// Initializes a new Matrix4 with the given values
+        /// Creates a new Matrix4 with the given values
         /// </summary>
         /// <param name="m11">Row 1 Column 1</param>
         /// <param name="m12">Row 1 Column 2</param>
@@ -138,6 +138,7 @@ namespace MathLibrary
                 0, 0, 0, 1);
         }
 
+        // Matrix4-Matrix4 addition
         public static Matrix4 operator +(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4
@@ -149,6 +150,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix4-Matrix4 subtraction
         public static Matrix4 operator -(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4
@@ -160,6 +162,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix4-Matrix4 multiplication
         public static Matrix4 operator *(Matrix4 lhs, Matrix4 rhs)
         {
             return new Matrix4
@@ -202,6 +205,7 @@ namespace MathLibrary
                 );
         }
 
+        // Matrix4-Vector4 multiplication
         public static Vector4 operator *(Matrix4 lhs, Vector4 rhs)
         {
             return new Vector4(
@@ -212,6 +216,7 @@ namespace MathLibrary
                 );
         }
 
+        // Vector4-Matrix4 multiplication
         public static Vector4 operator *(Vector4 lhs, Matrix4 rhs)
         {
             return new Vector4();

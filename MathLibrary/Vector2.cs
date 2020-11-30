@@ -29,6 +29,11 @@ namespace MathLibrary
             Y = 0;
         }
 
+        /// <summary>
+        /// Constructs a new Vector2 from the given values (x, y)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public Vector2(float x, float y)
         {
             X = x;
@@ -58,19 +63,32 @@ namespace MathLibrary
         { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y); }
 
 
+        // Overload Tuple to allow easy Vector2 creation
         public static implicit operator Vector2((float, float) tuple)
         { return new Vector2(tuple.Item1, tuple.Item2); }
 
+        // Vector2-Vector2 addition
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         { return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y); }
 
+        // Vector2-Vector2 subtraction
         public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
         { return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y); }
 
-        public static Vector2 operator *(Vector2 lhs, float scalar)
-        { return new Vector2(lhs.X * scalar, lhs.Y * scalar); }
+        // Vector2-Scalar multiplication
+        public static Vector2 operator *(Vector2 lhs, float rhs)
+        { return new Vector2(lhs.X * rhs, lhs.Y * rhs); }
 
-        public static Vector2 operator /(Vector2 lhs, float scalar)
-        { return new Vector2(lhs.X / scalar, lhs.Y / scalar); }
+        // Scalar-Vector2 multiplication
+        public static Vector2 operator *(float lhs, Vector2 rhs)
+        { return new Vector2(lhs * rhs.X, lhs * rhs.Y); }
+
+        // Vector2-Scalar division
+        public static Vector2 operator /(Vector2 lhs, float rhs)
+        { return new Vector2(lhs.X / rhs, lhs.Y / rhs); }
+
+        // Scalar-Vector2 division
+        public static Vector2 operator /(float lhs, Vector2 rhs)
+        { return new Vector2(lhs / rhs.X, lhs / rhs.Y); }
     }
 }
