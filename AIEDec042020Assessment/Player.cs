@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -10,7 +10,7 @@ namespace AIEDec042020Assessment
     {
         private float _fireDelay = 150;
         private float _colliderRadius = 20;
-        private float _maxSpeed = 500;
+
         private float _maxHealth = 5;
         private float _health;
 
@@ -23,7 +23,6 @@ namespace AIEDec042020Assessment
         private float _topBoundary =    Raylib.GetScreenHeight() * 0.3f;
 
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
-        private System.Diagnostics.Stopwatch _iFrameTimer = new System.Diagnostics.Stopwatch();
 
         private Actor[] _healthBar;
 
@@ -60,7 +59,7 @@ namespace AIEDec042020Assessment
         }
         public void TakeDamage(int damage)
         {
-            Console.WriteLine("Damage");
+            // Ensure health is always between 0 and MaxHealth
             _health = Math.Clamp(_health - damage, 0, _maxHealth);
             if (_health == 0)
                 Game.GameOver = true;
@@ -122,8 +121,8 @@ namespace AIEDec042020Assessment
 
             // Update Velocity
             Velocity += _acceleration;
-            if (Velocity.Magnitude > _maxSpeed)
-                Velocity = Velocity.Normalized * _maxSpeed;
+            if (Velocity.Magnitude > MaxSpeed)
+                Velocity = Velocity.Normalized * MaxSpeed;
 
             // Clamp drifting
             if (Math.Abs(Velocity.X) < 2)
@@ -142,11 +141,6 @@ namespace AIEDec042020Assessment
                 Velocity = new Vector2(Velocity.X, Math.Max(0, Velocity.Y));
 
             base.Update(deltaTime);
-        }
-
-        public override void Draw()
-        {
-            base.Draw();
         }
         #endregion
     }

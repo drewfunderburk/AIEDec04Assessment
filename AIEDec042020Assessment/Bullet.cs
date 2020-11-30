@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -8,7 +8,8 @@ namespace AIEDec042020Assessment
 {
     class Bullet : Actor
     {
-        private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
+        // Timer used for auto-destroy
+        private System.Diagnostics.Stopwatch _timer = new System.Diagnostics.Stopwatch();
 
         public float DespawnTime { get; set; } = 5000;
 
@@ -55,7 +56,7 @@ namespace AIEDec042020Assessment
         public override void Start()
         {
             base.Start();
-            _stopwatch.Start();
+            _timer.Start();
 
             if (ID == ActorID.ENEMY_BULLET)
                 _sprite = new Sprite("Sprites/Enemy_Bullet.png");
@@ -67,7 +68,8 @@ namespace AIEDec042020Assessment
         }
         public override void Update(float deltaTime)
         {
-            if (_stopwatch.ElapsedMilliseconds > DespawnTime)
+            // Check if DespawnTime has been reached
+            if (_timer.ElapsedMilliseconds > DespawnTime)
                 WillDestroy = true;
 
             Velocity = Forward * Speed;

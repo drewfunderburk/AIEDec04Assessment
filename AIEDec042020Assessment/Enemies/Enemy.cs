@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -9,7 +9,7 @@ namespace AIEDec042020Assessment
     class Enemy : Actor
     {
         private float _fireDelay;
-        private System.Diagnostics.Stopwatch _stopwatch = new System.Diagnostics.Stopwatch();
+        private System.Diagnostics.Stopwatch _timer = new System.Diagnostics.Stopwatch();
 
         public Actor Target { get; set; }
 
@@ -38,8 +38,10 @@ namespace AIEDec042020Assessment
         protected void Shoot()
         {
             if (_stopwatch.ElapsedMilliseconds > _fireDelay)
+            if (_timer.ElapsedMilliseconds > _fireDelay)
             {
-                _stopwatch.Restart();
+                // Restart shot timer
+                _timer.Restart();
                 Bullet bullet = Instantiate(
                     new Bullet(
                         GlobalPosition,
@@ -59,7 +61,8 @@ namespace AIEDec042020Assessment
         public override void Start()
         {
             base.Start();
-            _stopwatch.Start();
+            // Start firing timer
+            _timer.Start();
             Random rand = new Random();
             _fireDelay = 1000 + (rand.Next(-500, 500));
             AddCollider(new CircleCollider((0, 0), 20));
