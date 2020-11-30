@@ -24,7 +24,6 @@ namespace AIEDec042020Assessment
 
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
 
-        private Actor[] _healthBar;
 
         #region CONSTRUCTORS
         public Player(Vector2 position, float rotation = 0) : base(position, rotation) 
@@ -70,20 +69,6 @@ namespace AIEDec042020Assessment
             base.Start();
             _sprite = new Sprite("Sprites/Player_Ship.png");
             AddCollider(new CircleCollider((0, 0), _colliderRadius));
-
-            // Init Healthbar
-            _healthBar = new Actor[(int)_maxHealth];
-            int barWidth = 100;
-            int barSpacing = 100;
-            for (int i = 0; i < _healthBar.Length; i++)
-            {
-                _healthBar[i] = Actor.Instantiate(new Actor(0, 0));
-                _healthBar[i]._sprite = new Sprite("Sprites/Player_Bullet.png");
-                AddChild(_healthBar[i]);
-
-                int pos = ((-barWidth / 2) + barSpacing * (_healthBar[i]._sprite.Width / 2)) * (i + 1);
-                _healthBar[i].LocalPosition = (-40, pos);
-            }
         }
 
         public override void Update(float deltaTime)
