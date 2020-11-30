@@ -204,15 +204,16 @@ Enemy that patrols a given distance back and forth on the X-Axis
 Variable | Use
 :--------|:----
 public float PatrolDistance | Distance back and forth to patrol
+public float PatrolPeriod   | Length of one full period of motion
 private float _startingX    | The X position this enemy started at
 
 Function | Parameters | Use
 :--------|:-----------|:----
-**CONSTRUCTOR**             | -                                                            | -
-public PatrolEnemy          | Vector2 position,<br>float rotation,<br>float patrolDistance | Creates a new PatrolEnemy
-**CORE**                    | -                                                            | -
-public override void Start  | N/A                                                          | Called when this PatrolEnemy is started
-public override void Update | float deltaTime                                              | Called every frame. Updates PatrolEnemy logic
+**CONSTRUCTOR**             | -                                                                                   | -
+public PatrolEnemy          | Vector2 position,<br>float rotation,<br>float patrolDistance,<br>float patrolPeriod | Creates a new PatrolEnemy
+**CORE**                    | -                                                                                   | -
+public override void Start  | N/A                                                                                 | Called when this PatrolEnemy is started
+public override void Update | float deltaTime                                                                     | Called every frame. Updates PatrolEnemy logic
 ___
 
 ### class HomingEnemy : Enemy

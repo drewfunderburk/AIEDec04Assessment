@@ -72,7 +72,7 @@ namespace AIEDec042020Assessment
             if (_timer.ElapsedMilliseconds > _waves[index].StartTime + (_waves[index].Delay * _waves[index].Counter))
             {
                 // Spawn new PatrolEnemy
-                PatrolEnemy enemy = Actor.Instantiate(new PatrolEnemy((Raylib.GetScreenWidth() / 2, -30))) as PatrolEnemy;
+                PatrolEnemy enemy = Actor.Instantiate(new PatrolEnemy((Raylib.GetScreenWidth() / 2, -30), 0, 200, 400)) as PatrolEnemy;
                 enemy.Target = _player;
                 _waves[index].Counter++;
             }
