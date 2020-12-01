@@ -41,9 +41,10 @@ namespace AIEDec042020Assessment
         public override void Update(float deltaTime)
         {
             // Formula to move on the x in a sine wave
+            // https://www.mathsisfun.com/algebra/images/a-sin-bxcd.svg
             // x = A sin(B(y))
-            float A = PatrolDistance;
-            float B = (2 * (float)Math.PI) / PatrolPeriod;
+            float A = PatrolDistance;                       // Amplitude
+            float B = (2 * (float)Math.PI) / PatrolPeriod;  // Frequency
             float y = GlobalPosition.Y;
             float xOffset = A * (float)Math.Sin(B * y);
 
