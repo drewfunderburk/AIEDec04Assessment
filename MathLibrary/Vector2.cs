@@ -62,6 +62,16 @@ namespace MathLibrary
         public static float DotProduct(Vector2 lhs, Vector2 rhs)
         { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y); }
 
+        public static Vector2 Lerp(Vector2 start, Vector2 end, float interval)
+        {
+            float x = start.X + ((end.X - start.X) * interval);
+            float y = start.Y + ((end.Y - start.Y) * interval);
+
+            // Clamp to end if the vector is tiny
+            if ((end - start).Magnitude <= 0.1f)
+                return end;
+            return (x, y);
+        }
 
         // Overload Tuple to allow easy Vector2 creation
         public static implicit operator Vector2((float, float) tuple)
