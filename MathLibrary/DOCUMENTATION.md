@@ -26,8 +26,9 @@ public float Normalized | Returns this Vector with a magnitude of 1 (Read Only)
 
 Public Methods | Parameters | Use
 :--------------|:-----------|:----
-public static Vector2 Normalize | Vector2 vector              | Returns the given vector with a magnitude of 1
-public static float DotProduct  | Vector2 lhs,<br>Vector2 rhs | Returns the dot product of two vectors
+public static Vector2 Normalize | Vector2 vector                                   | Returns the given vector with a magnitude of 1
+public static float DotProduct  | Vector2 lhs,<br>Vector2 rhs                      | Returns the dot product of two vectors
+public static Vector2 Lerp      | Vector2 start,<br>Vector2 end,<br>float interval | Linearly interpolates between two points by a given interval
 
 Operators | Use
 :--------:|:----

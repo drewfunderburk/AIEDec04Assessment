@@ -90,7 +90,7 @@ namespace AIEDec042020Assessment
             // Look at Target
             if (Target != null)
                 LookAt(Target.GlobalPosition);
-
+            
             // Attempt to fire
             Shoot();
 
