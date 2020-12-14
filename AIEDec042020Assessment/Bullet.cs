@@ -78,7 +78,7 @@ namespace AIEDec042020Assessment
         public override void Update(float deltaTime)
         {
             // Check if DespawnTime has been reached
-            if (_timer.ElapsedMilliseconds > DespawnTime)
+            if (DespawnTime != 0 && _timer.ElapsedMilliseconds > DespawnTime)
                 WillDestroy = true;
 
             // Move bullet forward

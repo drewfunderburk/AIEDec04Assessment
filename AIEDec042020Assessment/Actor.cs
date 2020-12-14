@@ -327,7 +327,8 @@ namespace AIEDec042020Assessment
             {
                 for (int i = 0; i < _children.Length; i++)
                 {
-                    _children[i].UpdateGlobalTransform();
+                    if (_children[i] != null)
+                        _children[i].UpdateGlobalTransform();
                 }
             }
         }
@@ -343,7 +344,8 @@ namespace AIEDec042020Assessment
             {
                 for (int i = 0; i < _children.Length; i++)
                 {
-                    _children[i]._globalTransform = _localTransform;
+                    if (_children[i] != null)
+                        _children[i]._globalTransform = _localTransform;
                 }
             }
         }

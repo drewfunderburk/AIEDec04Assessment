@@ -88,6 +88,7 @@ namespace AIEDec042020Assessment
             if (_health == 0)
                 Game.GameOver = true;
         }
+
         #region CORE
         public override void Start()
         {
@@ -98,6 +99,22 @@ namespace AIEDec042020Assessment
 
             // Add collider
             AddCollider(new CircleCollider((0, 0), _colliderRadius));
+
+            // Shield
+            int radius = 50;
+            int numShields = 10;
+            for (int i = 0; i < numShields; i++)
+            {
+                float radians = (float)((Math.PI * 2) / numShields) * i;
+                float x = radius * (float)(Math.Cos(radians));
+                float y = radius * (float)(Math.Sin(radians));
+                Vector2 pos = (x, y);
+
+                Bullet actor = Actor.Instantiate(new Bullet(pos, 0, (2, 2), ActorID.PLAYER_BULLET)) as Bullet;
+                actor.Speed = 0;
+                actor.DespawnTime = 0;
+                AddChild(actor);
+            }
         }
 
         public override void Update(float deltaTime)
