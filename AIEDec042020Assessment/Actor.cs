@@ -254,7 +254,7 @@ namespace AIEDec042020Assessment
         public void Rotate(float radians)
         {
             RotationAngle += radians;
-            _rotation *= Matrix3.CreateRotation(radians);
+            _rotation *= Matrix3.CreateRotation(RotationAngle);
             UpdateTransform();
         }
 
@@ -284,7 +284,7 @@ namespace AIEDec042020Assessment
         public void LookAt(Vector2 position)
         {
             // Find the direction to look at
-            Vector2 direction = (position - LocalPosition).Normalized;
+            Vector2 direction = (position - GlobalPosition).Normalized;
 
             // Get dotproduct between forward and direction to look
             float dotProduct = Vector2.DotProduct(Forward, direction);
@@ -306,7 +306,7 @@ namespace AIEDec042020Assessment
             if (perpDotProduct != 0)
                 angle *= perpDotProduct / Math.Abs(perpDotProduct);
 
-            Rotate(angle);
+            SetRotation(angle + RotationAngle);
         }
 
         /// <summary>
