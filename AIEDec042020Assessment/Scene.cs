@@ -222,6 +222,14 @@ namespace AIEDec042020Assessment
             return actorRemoved;
         }
 
+        public Actor GetActor(int index)
+        {
+            if (index < 0 || index >= NumActors)
+                return null;
+
+            return _actors[index];
+        }
+
         /// <summary>
         /// Removes actors set to be removed
         /// </summary>
