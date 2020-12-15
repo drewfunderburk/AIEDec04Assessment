@@ -8,6 +8,7 @@ namespace AIEDec042020Assessment
 {
     class Turret : Actor
     {
+        public bool followClosestEnemy = false;
         private float _fireDelay;
         private System.Diagnostics.Stopwatch _timer = new System.Diagnostics.Stopwatch();
 
@@ -42,34 +43,43 @@ namespace AIEDec042020Assessment
 
         public override void Update(float deltaTime)
         {
-            // Find a target
-            Actor targetActor = null;
-            float closestDistance = 1000;
-            for (int i = 0; i < Game.GetCurrentScene().NumActors; i++)
+            if (followClosestEnemy)
             {
-                Actor actor = Game.GetCurrentScene().GetActor(i);
 
-                // Check if the actor is an enemy
-                if (actor is Enemy)
+                // Find a target
+                Actor targetActor = null;
+                float closestDistance = 1000;
+                for (int i = 0; i < Game.GetCurrentScene().NumActors; i++)
                 {
-                    // Find closest enemy
-                    if ((actor.GlobalPosition - GlobalPosition).Magnitude < closestDistance)
+                    Actor actor = Game.GetCurrentScene().GetActor(i);
+
+                    // Check if the actor is an enemy
+                    if (actor is Enemy)
                     {
-                        closestDistance = (actor.GlobalPosition - GlobalPosition).Magnitude;
-                        targetActor = actor;
+                        // Find closest enemy
+                        if ((actor.GlobalPosition - GlobalPosition).Magnitude < closestDistance)
+                        {
+                            closestDistance = (actor.GlobalPosition - GlobalPosition).Magnitude;
+                            targetActor = actor;
+                        }
                     }
                 }
-            }
 
-            // Target actor
-            if (targetActor != null)
-            {
-                LookAt(targetActor.GlobalPosition);
+                // Target actor
+                if (targetActor != null)
+                {
+                    LookAt(targetActor.GlobalPosition);
+                }
+                else
+                    SetRotation((float)Math.PI / 2);
             }
             else
-                SetRotation((float)Math.PI / 2);
-            Shoot();
+            {
+                if (_parent != null)
+                    SetRotation(_parent.RotationAngle);
+            }
 
+            Shoot();
             base.Update(deltaTime);
         }
 

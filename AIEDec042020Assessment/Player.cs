@@ -35,8 +35,10 @@ namespace AIEDec042020Assessment
         // Timer for use in fire rate
         private System.Diagnostics.Stopwatch _fireRateTimer = new System.Diagnostics.Stopwatch();
 
-        private Turret _leftTurret;
-        private Turret _rightTurret;
+        private Turret _rearLeftTurret;
+        private Turret _rearRightTurret;
+        private Turret _frontLeftTurret;
+        private Turret _frontRightTurret;
 
         #region CONSTRUCTORS
         /// <summary>
@@ -104,10 +106,16 @@ namespace AIEDec042020Assessment
             AddCollider(new CircleCollider((0, 0), _colliderRadius));
 
             // Turrets
-            _leftTurret = Instantiate(new Turret((-20, -20), 0)) as Turret;
-            AddChild(_leftTurret);
-            _rightTurret = Instantiate(new Turret((-20, 20), 0)) as Turret;
-            AddChild(_rightTurret);
+            _rearLeftTurret = Instantiate(new Turret((-20, -20), 0)) as Turret;
+            _rearLeftTurret.followClosestEnemy = true;
+            AddChild(_rearLeftTurret);
+            _rearRightTurret = Instantiate(new Turret((-20, 20), 0)) as Turret;
+            _rearRightTurret.followClosestEnemy = true;
+            AddChild(_rearRightTurret);
+            _frontLeftTurret = Instantiate(new Turret((20, -20), 0)) as Turret;
+            AddChild(_frontLeftTurret);
+            _frontRightTurret = Instantiate(new Turret((20, 20), 0)) as Turret;
+            AddChild(_frontRightTurret);
 
             // Shield
             int radius = 50;
