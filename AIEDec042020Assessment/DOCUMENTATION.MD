@@ -145,6 +145,8 @@ private float _rightBoundary                        | Right screen movement boun
 private float _bottomBoundary                       | Bottom screen movement boundary
 private float _topBoundary                          | Top screen movement boundary
 private System.Diagnostics.Stopwatch _fireRateTimer | Timer for use in fire rate
+private Turret _leftTurret                          | Left player auto-turret. Will track and fire at the nearest enemy
+private Turret _rightTurret                         | Right player auto-turret. Will track and fire at the nearest enemy
 
 Function | Parameters | Use
 :--------|:-----------|:----
@@ -156,6 +158,23 @@ public override void Start       | N/A                                    | Call
 public override void Update      | float deltaTime                        | Called every frame. Updates player logic
 public override bool OnCollision | Actor other                            | Actions to perform if a collision is detected
 public void TakeDamage           | int damage                             | Causes the player to take damage
+___
+
+### class Turret : Actor
+Variable | Use
+:--------|:----
+private float _fireDelay                            | Delay between shots
+private System.Diagnostics.Stopwatch _fireRateTimer | Timer for use in fire rate
+
+Function | Parameters | Use
+:--------|:-----------|:----
+**CONSTRUCTOR**                  | -                                      | -
+public Turret                    | Vector2 position,<br>float rotation    | Creates a new turret
+**CORE**                         | -                                      | -
+public override void Start       | N/A                                    | Called when this turret is started
+public override void Update      | float deltaTime                        | Called every frame. Updates turret logic
+public override bool OnCollision | Actor other                            | Actions to perform if a collision is detected
+protected void Shoot             | N/A                                    | Attempt to fire a bullet
 ___
 
 ### class Bullet : Actor
@@ -280,6 +299,7 @@ public virtual void End        | N/A              | End the scene and all actors
 public void AddActor           | Actor actor      | Adds an actor to the scene
 public void RemoveActor        | int index        | Removes an actor from the scene
 public void RemoveActor        | Actor actor      | Removes an actor from the scene
+public Actor GetActor          | int index        | Returns the actor at a specified index
 private void DestroyActors     | N/A              | Removes all actors that are marked for removal
 **TRANSFORMATION**             | -                | -
 public void SetTranslation     | Vector2 position | Sets the scene's position
